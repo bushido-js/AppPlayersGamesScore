@@ -1,49 +1,26 @@
 <template>
-  <div class="container mt-2" >
+  <div class="container mt-2">
 
-    <div class="row">
-        <div class="col-6 mb-2">
-          <div class="row">
-            <div class="col-6">
-              <input  class="form-control" placeholder="Добавьте участника" v-model="value">
-            </div>
-            <div class="col-6">
-              <button type="button" class="btn btn-primary" v-on:click="players.push(value),numbers.push(id= id + 1)">Добавить</button>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <ul class="list-group">
-          <li class="list-group-item " v-for="(player, index) of players">
-            <strong >{{ index + 1 }}</strong>
-            <span>{{ player }}</span>
-            <span class="badge bg-primary rounded-pill">999</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+    <AddNewPlayer />
+    <hr size="5" class="col-6">
+    <CreateGames />
+    <hr>
+    <GamesField />
+    
   </div>
 </template>
 
-<script>   
+<script>
+import AddNewPlayer from './AddNewPlayer.vue';
+import CreateGames from './CreateGames.vue';
+import GamesField from './GamesField.vue';
   export default {
-    data () {
-      return {
-        players: [],
-        numbers: [],
-        value: '',
-      }
-    },
-    methods: {
-      say: function (m) {
-        console.log(m);
-      }
-    }
-  }
+    components: {
+    AddNewPlayer,
+    CreateGames,
+    GamesField
+}
+}
 </script>
 
 <style>
