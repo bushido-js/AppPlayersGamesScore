@@ -8,6 +8,10 @@ new Vue({
 
 
 
+let arr = '123124'
+console.log(arr.split('').join(''));
+console.log('hello'); 
+
 
 
 

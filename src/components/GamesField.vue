@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="container">
         <div class="row wrapper mt-1">
             <div class="col-5 border  ">
                 <div class="row" >
@@ -118,7 +118,7 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
 .points div {
     border: 1px solid rgb(126, 125, 125);
     min-height: 1em;
