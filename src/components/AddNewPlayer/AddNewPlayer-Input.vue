@@ -22,17 +22,20 @@ export default {
     props: [
         'record'
     ],
-     data() {
+    data() {
         return {
             value: "",
-        }
-     },
-     methods: {
+    }
+    },
+    methods: {
         sendEvent() {
-            console.log('this.value', this.value);
-            this.$emit('sendEvent', this.value)
-        }
-     }
+            this.$emit('sendEvent', this.value);
+            this.clearInput()
+        },
+        clearInput() {
+            this.value = ""
+        }  
+    },
 }
 
 

@@ -6,7 +6,9 @@
       @add-player="addPlayer"
     />
     <hr size="5" class="col-6">
-    <CreateGames />
+    <CreateGames 
+      v-bind:players="players"
+    />
     <hr>
     <GamesField />
     
@@ -15,8 +17,8 @@
 
 <script>
 import AddNewPlayer from './AddNewPlayer/AddNewPlayer.vue';
-import CreateGames from './CreateGames.vue';
-import GamesField from './GamesField.vue';
+import CreateGames from './CreateGames/CreateGames.vue';
+import GamesField from './GamesField/GamesField.vue';
 export default {
   
   data() {
@@ -27,8 +29,8 @@ export default {
     }
   },
   methods: {
-    addPlayer: function (value) {
-          this.players.push(value);
+    addPlayer: function (obj) {
+          this.players.push(obj);
     },
   },
   components: {
