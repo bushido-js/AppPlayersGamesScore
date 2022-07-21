@@ -7,7 +7,6 @@
     <AddNewPlayerList 
         v-bind:players="players"
     />
-
 </div>
 
 
@@ -15,11 +14,17 @@
 
 <script>
 import AddNewPlayerInput from './AddNewPlayer-Input.vue';
-import AddNewPlayerList from './AddNewPlayer-list.vue';
+import AddNewPlayerList from './AddNewPlayer-List.vue';
 export default {
     props: {
         'players': Array        
     },
+    components: {
+        AddNewPlayerInput,
+        AddNewPlayerList
+        // AddNewPlayerInput: () => import('./AddNewPlayer-Input.vue'),
+        // AddNewPlayerList: () => import('./AddNewPlayer-List.vue')
+    }, 
     methods: {
         record(value) {
             
@@ -32,15 +37,9 @@ export default {
                     wGames: 0
                 }
                 this.$emit('add-player', newPlayer )
-                
-            
             }
         },
             
-    },
-    components:{
-    AddNewPlayerInput,
-    AddNewPlayerList
-} 
+    }
 }
 </script>

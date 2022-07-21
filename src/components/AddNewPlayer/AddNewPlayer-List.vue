@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <div class="row">
+        <div class="row" >
             <div class="col-6">
                 <ul class="list-group">
                     <li class="list-group-item" v-for="(player, index) of players">
@@ -25,7 +25,10 @@
 export default{
     props: [
         'players'
-    ]
+    ],
+    mounted() {
+        console.log('players', Boolean(this.players.length));
+    }
 }
 
 </script>

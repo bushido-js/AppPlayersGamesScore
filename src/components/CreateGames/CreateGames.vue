@@ -38,35 +38,66 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-primary" >Создать</button>
+                <button type="button" class="btn btn-primary" @click="CreateNewGame">Создать</button>
             </div>
         </div>
+        <hr>
+        <GamesField 
+            v-bind:players="players"
+            v-bind:counter="counter"
+            v-bind:getFirstId="getFirstId"
+            v-bind:getSecondId="getSecondId"             
+        />
     </div>
 
 </template>
 
 <script>
+import GamesField from './GamesField.vue';
 export default {
-    props: [
-        'players'
-    ],
+    props: {
+        'players': Array,
+        'games': Array
+    },
     data() {
         return {
             firstSelected: '',
             secondSelected: '', 
-            arrByID: []
+            arrByID: [],
+            counter: 0,
         }
     },
     methods: {
        filterByID(item) {
-            if (item.id == this.firstSelected.split('')[0]){
+            if (item.id == this.getFirstId){
                return false
             }
             return true
        },
        filterArr() {
         this.arrByID = this.players.filter(this.filterByID)
-       }
+       },
+       CreateNewGame () {
+            const newGame = {
+                id: 1,
+                firstUser: this.players[Number(this.getFirstId) - 1].name ,
+                secondUser: this.players[Number(this.getSecondId) - 1].name,
+            }
+            this.$emit('addNewGame', newGame)
+            this.counter += 1
+       },
+       
+    },
+    computed: {
+    getFirstId: function() {
+        return this.firstSelected.split('')[0]
+    },
+    getSecondId: function() {
+        return this.secondSelected.split('')[0]
+    }
+},
+    components:{
+        GamesField
     }
 
 }
