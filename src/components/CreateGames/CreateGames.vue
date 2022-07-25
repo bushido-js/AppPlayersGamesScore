@@ -1,19 +1,16 @@
 <template>
-
     <div>
         <div class="row">
             <div class="col-6">
                 <div class="row">
                     <div class="col-5">
-                        <select id="selectOne" @change="filterArr" v-model="firstSelected" class="form-select">
-                            <option v-for="player in players" >
+                        <select id="selectOne"  v-model="firstSelected" class="form-select">
+                            <option v-for="player in players" :value="player.id">
                                 {{player.id}}.
                                 {{player.name}}
                                 {{player.win}}
                                 /
                                 {{player.loss}}
-                                |
-                                {{player.wGames}}
                             </option>
                         </select>
                      </div>
@@ -24,14 +21,12 @@
 
                      <div class="col-5">
                         <select id="selectTwo" v-model="secondSelected" class="form-select">
-                            <option v-for="player in arrByID" >
+                            <option v-for="player in players" :value="player.id">
                                 {{player.id}}.
                                 {{player.name}}
                                 {{player.win}}
                                 /
                                 {{player.loss}}
-                                |
-                                {{player.wGames}}
                             </option>
                         </select>
                      </div>
@@ -43,17 +38,16 @@
         </div>
         <hr>
         <GamesField 
-            v-bind:players="players"
-            v-bind:counter="counter"
-            v-bind:getFirstId="getFirstId"
-            v-bind:getSecondId="getSecondId"             
+            :players="players"
+            :games="games"
+            :firstSelected="firstSelected"            
+            :secondSelected="secondSelected"   
         />
     </div>
 
 </template>
 
 <script>
-import GamesField from './GamesField.vue';
 export default {
     props: {
         'players': Array,
@@ -63,41 +57,24 @@ export default {
         return {
             firstSelected: '',
             secondSelected: '', 
-            arrByID: [],
-            counter: 0,
+            index: 0
         }
     },
     methods: {
-       filterByID(item) {
-            if (item.id == this.getFirstId){
-               return false
-            }
-            return true
-       },
-       filterArr() {
-        this.arrByID = this.players.filter(this.filterByID)
-       },
        CreateNewGame () {
             const newGame = {
-                id: 1,
-                firstUser: this.players[Number(this.getFirstId) - 1].name ,
-                secondUser: this.players[Number(this.getSecondId) - 1].name,
+                id: this.index += 1,
+                firstUser: this.firstSelected,
+                secondUser: this.secondSelected,
+                pointsFirstUser: [0, 1]
             }
             this.$emit('addNewGame', newGame)
-            this.counter += 1
        },
        
     },
-    computed: {
-    getFirstId: function() {
-        return this.firstSelected.split('')[0]
-    },
-    getSecondId: function() {
-        return this.secondSelected.split('')[0]
-    }
-},
+    computed: {},
     components:{
-        GamesField
+        GamesField: () => import('./GamesField/GamesField.vue')
     }
 
 }

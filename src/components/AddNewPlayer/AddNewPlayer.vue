@@ -1,45 +1,44 @@
 <template>
-<div> 
-    <AddNewPlayerInput 
-        @sendEvent="record"
-    />
-    
-    <AddNewPlayerList 
-        v-bind:players="players"
-    />
-</div>
-
-
+    <div> 
+        <AddNewPlayerInput 
+            @sendEvent="record"
+        />
+        
+        <AddNewPlayerList 
+            :players="players"
+        />
+    </div>
 </template>
 
 <script>
-import AddNewPlayerInput from './AddNewPlayer-Input.vue';
-import AddNewPlayerList from './AddNewPlayer-List.vue';
+
 export default {
+    data() {
+        return {
+            index: 0
+        }
+    },
     props: {
         'players': Array        
     },
     components: {
-        AddNewPlayerInput,
-        AddNewPlayerList
-        // AddNewPlayerInput: () => import('./AddNewPlayer-Input.vue'),
-        // AddNewPlayerList: () => import('./AddNewPlayer-List.vue')
+        AddNewPlayerInput: () => import('./AddNewPlayer-Input.vue'),
+        AddNewPlayerList: () => import('./AddNewPlayer-List.vue')
     }, 
     methods: {
         record(value) {
-            
             if (value.trim()) {
                 const newPlayer = {
-                    id: this.index + 1,
+
+                    id: this.index += 1,
                     name: value,
                     win: 0,
                     loss: 0,
-                    wGames: 0
                 }
+                // в отдельный метод, поменять названия
                 this.$emit('add-player', newPlayer )
             }
-        },
-            
+        },     
     }
 }
 </script>

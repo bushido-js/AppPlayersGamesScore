@@ -32,14 +32,11 @@ module.exports = {
             }
         ]
     },
-    
-    // devtool: 'inline-source-map',
     plugins: [
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/template.html'),
             filename: 'index.html',
         }),
-    ], 
-    // mode: 'development',  
+    ]
 };
