@@ -7,10 +7,8 @@
     <hr size="5" class="col-6">
     <CreateGame 
       :players="players"
-      @addNewGame="addGame"
       :games="games"
-
-
+      @sendSelected="createGameObject"
     />
   </div>
 </template>
@@ -25,15 +23,16 @@ export default {
       players: [],
       games: [],
 
-      index: 0
+      index: 0,
+      count: 0
     }
   },
   methods: {
-    createGameObject () {
+    createGameObject (firstSelected, secondSelected) {
       const newGame = {
         id: this.count += 1,
-        firstUser: this.firstSelected,
-        secondUser: this.secondSelected,
+        firstUser: firstSelected,
+        secondUser: secondSelected,
         firstUserPoints: [0],
         secondUserPoints: [0]
       }
@@ -42,12 +41,12 @@ export default {
         newGame.firstUser !== newGame.secondUser
         ) {
           this.addGame (newGame)
-    }
+      }
     },
-    addGame(obj) {
-      this.games.push(obj);
-      console.log('games', this.games);
-    },
+        addGame(obj) {
+          this.games.push(obj);
+          console.log('games', this.games);
+        },
 
  
     createPlayerObject(value) {
@@ -56,19 +55,19 @@ export default {
         newPlayer = {
           id: this.index += 1,
           name: value,
-          winRound: 0, // round
-          lossRound: 0, // round
-          winGame: 0 // games
+          winRound: 0, 
+          lossRound: 0, 
+          winGame: 0 
         }
       }
       if (Object.keys(newPlayer).length) {
         this.addPlayer (newPlayer);
       }
     },
-      addPlayer(obj) {
-        this.players.push(obj);
-        console.log('players', this.players);
-      },
+        addPlayer(obj) {
+          this.players.push(obj);
+          console.log('players', this.players);
+        },
   },
   components: {
     AddNewPlayer: () => import('./AddNewPlayer/AddNewPlayer.vue'),

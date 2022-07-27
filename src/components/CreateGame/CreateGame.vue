@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-primary" @click="createNewGame">Создать</button>
+                <button type="button" class="btn btn-primary" @click="sendSelected">Создать</button>
             </div>
         </div>
         <hr>
@@ -61,30 +61,12 @@ export default {
         return {
             firstSelected: '',
             secondSelected: '', 
-            count: 0
         }
     },
     methods: {
-       createNewGame () {
-            const newGame = {
-                id: this.count += 1,
-                firstUser: this.firstSelected,
-                secondUser: this.secondSelected,
-                firstUserPoints: [0],
-                secondUserPoints: [0]
-            }
-            if (newGame.firstUser !== '' &&
-                newGame.secondUser !== '' &&
-                newGame.firstUser !== newGame.secondUser
-                ) {
-                    this.sendObject (newGame)
-            }
-       },
-       sendObject (obj) {
-            this.$emit('addNewGame', obj)        
+       sendSelected () {
+            this.$emit('sendSelected', this.firstSelected, this.secondSelected)
        }
-       
-       
     },
     computed: {},
     components:{

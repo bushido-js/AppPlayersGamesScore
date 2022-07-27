@@ -10,11 +10,11 @@
                             <div v-for="firstMember of players">
                                 <div v-if="firstMember.id == game.firstUser">
                                     <strong>{{firstMember.name}}</strong>
-                                    <span class="badge bg-primary rounded-pill">{{firstMember.winGame}}</span>
+                                    <span class="badge bg-primary rounded-pill">{{firstMember.winRound}}</span>
                                     /
-                                    <span class="badge bg-danger rounded-pill">{{firstMember.lossGame}}</span>
+                                    <span class="badge bg-danger rounded-pill">{{firstMember.lossRound}}</span>
                                     |
-                                    <span class="badge bg-warning rounded-pill">{{firstMember.winGames}}</span>
+                                    <span class="badge bg-warning rounded-pill">{{firstMember.winGame}}</span>
                                 </div>
                             </div>
                         </div>
@@ -41,11 +41,11 @@
                             <div v-for="secondMember of players">
                                 <div v-if="secondMember.id == game.secondUser">
                                     <strong>{{secondMember.name}}</strong>
-                                    <span class="badge bg-primary rounded-pill">{{secondMember.winGame}}</span>
+                                    <span class="badge bg-primary rounded-pill">{{secondMember.winRound}}</span>
                                     /
-                                    <span class="badge bg-danger rounded-pill">{{secondMember.lossGame}}</span>
+                                    <span class="badge bg-danger rounded-pill">{{secondMember.lossRound}}</span>
                                     |
-                                    <span class="badge bg-warning rounded-pill">{{secondMember.winGames}}</span>                                 
+                                    <span class="badge bg-warning rounded-pill">{{secondMember.winGame}}</span>                                 
 
                                 </div>
                             </div>
