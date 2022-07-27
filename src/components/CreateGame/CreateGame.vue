@@ -8,32 +8,36 @@
                             <option v-for="player in players" :value="player.id">
                                 {{player.id}}.
                                 {{player.name}}
-                                {{player.win}}
+                                {{player.wiGame}}
                                 /
-                                {{player.loss}}
+                                {{player.lossGame}}
+                                |
+                                {{player.winGames}}
                             </option>
                         </select>
-                     </div>
+                    </div>
                     
                     <div class="col-2 position-relative">
                         <h2 class="position-absolute top-50 start-50 translate-middle">vs</h2>
                     </div>
 
-                     <div class="col-5">
+                    <div class="col-5">
                         <select id="selectTwo" v-model="secondSelected" class="form-select">
                             <option v-for="player in players" :value="player.id">
                                 {{player.id}}.
                                 {{player.name}}
-                                {{player.win}}
+                                {{player.winGame}}
                                 /
-                                {{player.loss}}
+                                {{player.lossGame}}
+                                |
+                                {{player.winGames}}
                             </option>
                         </select>
-                     </div>
+                    </div>
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-primary" @click="CreateNewGame">Создать</button>
+                <button type="button" class="btn btn-primary" @click="createNewGame">Создать</button>
             </div>
         </div>
         <hr>
@@ -57,24 +61,35 @@ export default {
         return {
             firstSelected: '',
             secondSelected: '', 
-            index: 0
+            count: 0
         }
     },
     methods: {
-       CreateNewGame () {
+       createNewGame () {
             const newGame = {
-                id: this.index += 1,
+                id: this.count += 1,
                 firstUser: this.firstSelected,
                 secondUser: this.secondSelected,
-                pointsFirstUser: [0, 1]
+                firstUserPoints: [],
+                secondUserPoints: []
+                
             }
-            this.$emit('addNewGame', newGame)
+            if (newGame.firstUser !== '' &&
+                newGame.secondUser !== '' &&
+                newGame.firstUser !== newGame.secondUser
+                ) {
+                    this.sendObject (newGame)
+            }
        },
+       sendObject (obj) {
+            this.$emit('addNewGame', obj)        
+       }
+       
        
     },
     computed: {},
     components:{
-        GamesField: () => import('./GamesField/GamesField.vue')
+        GamesField: () => import('./GameField/GameField.vue')
     }
 
 }

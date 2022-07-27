@@ -1,7 +1,7 @@
 <template>
     <div> 
-        <AddNewPlayerInput 
-            @sendEvent="record"
+        <AddNewPlayerValue 
+            @sendEvent="createObject"
         />
         
         <AddNewPlayerList 
@@ -22,23 +22,28 @@ export default {
         'players': Array        
     },
     components: {
-        AddNewPlayerInput: () => import('./AddNewPlayer-Input.vue'),
-        AddNewPlayerList: () => import('./AddNewPlayer-List.vue')
+        AddNewPlayerValue: () => import('./AddNewPlayerValue.vue'),
+        AddNewPlayerList: () => import('./AddNewPlayerList.vue')
     }, 
     methods: {
-        record(value) {
+        createObject(value) {
+            let newPlayer = {};
             if (value.trim()) {
-                const newPlayer = {
-
+                newPlayer = {
                     id: this.index += 1,
                     name: value,
-                    win: 0,
-                    loss: 0,
+                    winGame: 0,
+                    lossGame: 0,
+                    winGames: 0
                 }
-                // в отдельный метод, поменять названия
-                this.$emit('add-player', newPlayer )
             }
-        },     
+            if (Object.keys(newPlayer).length) {
+                this.sendObject (newPlayer);
+            }
+        },
+        sendObject (obj) {
+            this.$emit('addNewPlayer', obj);  
+        }
     }
 }
 </script>

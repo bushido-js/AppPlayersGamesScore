@@ -23,10 +23,10 @@ export default {
     methods: {
         sendEvent() {
             this.$emit('sendEvent', this.value);
-            this.clearInput()
+            this.clearInput();
         },
         clearInput() {
-            this.value = ""
+            this.value = "";
         }  
     },
 }

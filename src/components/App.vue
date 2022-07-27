@@ -2,10 +2,10 @@
   <div class="container mt-2">
     <AddNewPlayer 
       :players="players"
-      @add-player="addPlayer"
+      @addNewPlayer="addPlayer"
     />
     <hr size="5" class="col-6">
-    <CreateGames 
+    <CreateGame 
       :players="players"
       @addNewGame="addGame"
       :games="games"
@@ -27,14 +27,16 @@ export default {
   methods: {
     addPlayer(obj) {
       this.players.push(obj);
+      console.log('players', this.players);
     },
     addGame(obj) {
       this.games.push(obj);
+      console.log('games', this.games);
     },
   },
   components: {
     AddNewPlayer: () => import('./AddNewPlayer/AddNewPlayer.vue'),
-    CreateGames: () => import('./CreateGames/CreateGames.vue')
+    CreateGame: () => import('./CreateGame/CreateGame.vue')
   }
 }
 </script>

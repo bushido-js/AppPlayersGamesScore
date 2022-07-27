@@ -22,4 +22,13 @@ new Vue({
 //   {id:10, name:'Hello'},
 // ]
 
-console.log((Math.random()));
+let index = 0
+let newGame = {
+  id: index += 1,
+  firstUser: 333,
+  secondUser: 44,
+  pointsFirstUser: [0, 1]
+}
+
+console.log(newGame.firstUser !== '')
+
