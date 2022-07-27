@@ -5,11 +5,11 @@
                 <li class="list-group-item" v-for="player of players">
                     <strong > {{player.id}} </strong>
                     <span>{{player.name }}</span>
-                    <span class="badge bg-primary rounded-pill">{{ player.winGame }}</span>
+                    <span class="badge bg-primary rounded-pill">{{ player.winRound }}</span>
                     /
-                    <span class="badge bg-danger rounded-pill">{{ player.lossGame }}</span>
+                    <span class="badge bg-danger rounded-pill">{{ player.lossRound }}</span>
                     |
-                    <span class="badge bg-warning rounded-pill">{{ player.winGames }}</span>
+                    <span class="badge bg-warning rounded-pill">{{ player.winGame }}</span>
                 </li>
             </ul>
         </div>

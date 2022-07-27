@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="col-3 points fitst-player">
-                            <div id="p1g1" @click="onClick(game)" ></div>
+                            <div id="p1g1" @click="onClickFirst(game)" v-for="ochko of game.firstUserPoints"></div>
                         </div>
 
                     </div>
@@ -34,7 +34,7 @@
                     <div class="row" >
 
                         <div class="col-3 points second-player">
-                            <div id="p2g1"  ></div>
+                            <div id="p2g1" @click="onClickSecond(game)" v-for="ochko of game.secondUserPoints"></div>
                         </div>
 
                         <div class="col-9 name-second-player">
@@ -69,15 +69,46 @@ export default{
         'games': Array,        
     },
     methods: {
-        onClick(g) {
-            console.log(g.id);;
-        },
-        getGame() {
-            for (let elem of this.games){
-                console.log(elem.id);
-            }
+
+        onClickFirst(game) {
+            this.addPointsFirstUser(game)
+            console.log('Первый', game.firstUserPoints);
+            this.addPointsSecondUser(game)
+            console.log('Второй',game.secondUserPoints);
 
         },
+            addPointsFirstUser(g) {
+                let arr = g.firstUserPoints
+                if (this.getSumInArray(arr) < 2) {
+                    if (arr[0] === 0){
+                        arr[0] = 1
+                        return arr.push(0) 
+                    } 
+                    if (arr[1] === 0){
+                        return arr[1] = 1
+                    }
+                }
+            },
+            addPointsSecondUser(g) {
+                let arr = g.firstUserPoints;
+                let arr2 = g.secondUserPoints;
+                if (arr[0] === 1) {
+                    arr2[0] = 0
+                }
+                if (arr[1] === 1) {
+                    arr2[1] = 0
+                } else if(arr[1] === 0) {
+                    arr2[1] = 1
+                }
+            },
+        getSumInArray(arr){
+            let sum = 0;
+            for (let elem of arr){
+                sum += elem
+            }
+            return sum
+        },
+       
     },
 }
 

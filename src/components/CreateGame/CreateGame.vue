@@ -8,11 +8,11 @@
                             <option v-for="player in players" :value="player.id">
                                 {{player.id}}.
                                 {{player.name}}
-                                {{player.wiGame}}
+                                {{player.winRound}}
                                 /
-                                {{player.lossGame}}
+                                {{player.lossRound}}
                                 |
-                                {{player.winGames}}
+                                {{player.winGame}}
                             </option>
                         </select>
                     </div>
@@ -26,11 +26,11 @@
                             <option v-for="player in players" :value="player.id">
                                 {{player.id}}.
                                 {{player.name}}
-                                {{player.winGame}}
+                                {{player.winRound}}
                                 /
-                                {{player.lossGame}}
+                                {{player.lossRound}}
                                 |
-                                {{player.winGames}}
+                                {{player.winGame}}
                             </option>
                         </select>
                     </div>
@@ -70,9 +70,8 @@ export default {
                 id: this.count += 1,
                 firstUser: this.firstSelected,
                 secondUser: this.secondSelected,
-                firstUserPoints: [],
-                secondUserPoints: []
-                
+                firstUserPoints: [0],
+                secondUserPoints: [0]
             }
             if (newGame.firstUser !== '' &&
                 newGame.secondUser !== '' &&

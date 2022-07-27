@@ -22,13 +22,21 @@ new Vue({
 //   {id:10, name:'Hello'},
 // ]
 
-let index = 0
-let newGame = {
-  id: index += 1,
-  firstUser: 333,
-  secondUser: 44,
-  pointsFirstUser: [0, 1]
+
+let arr = [1, 0, 1]
+
+let arr2 = [0, 1, 0]
+
+function reverseArr (arr) {
+  let arr3 = []
+  for (let elem of arr){
+    if (elem === 1){
+      arr3.push(0)
+    } else {
+      arr3.push(1)
+    }
+  }
+  return arr3;
 }
 
-console.log(newGame.firstUser !== '')
-
+console.log(reverseArr(arr));
