@@ -26,7 +26,9 @@
         <hr>
         <GamesField 
             :players="players"
-            :games="games"   
+            :games="games"
+
+            @sendInfoGame="sendInfoGame"
         />
     </div>
 
@@ -41,10 +43,13 @@ export default {
     data() {
         return {
             firstPlayerId: null,
-            secondPlayerId: null
+            secondPlayerId: null,
         }
     },
     methods: {
+        sendInfoGame(game, num) {
+            this.$emit('sendInfoGame', game, num)
+        },
         firstPlayerSelected(id) {
             this.firstPlayerId = id  
         },

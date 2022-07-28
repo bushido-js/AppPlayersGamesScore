@@ -1,6 +1,6 @@
 <template>
     <ul class="list-group ulGame">
-        <li class="list-group-item liGame mb-2 border" v-for="game of games" >
+        <li class="list-group-item liGame mb-2 border" v-for="game of games" :value="takeVariable(game)">
             <div class="row wrapper mt-1">
 
                 <div class="col-5 border">
@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="col-3 points fitst-player">
-                            <div  v-for="ochko of game.rounds" @click="clickPlayer(game, 1, ochko)" :value="game.rounds"></div>
+                            <div  v-for="ochko of game.rounds" @click="sendInfoGame(game, 1)" :value="game.rounds">{{ochko}}</div>
                         </div>
 
                     </div>
@@ -34,7 +34,7 @@
                     <div class="row" >
 
                         <div class="col-3 points second-player">
-                            <div   v-for="ochko of game.rounds" @click="clickPlayer(game, 2, ochko)" :value="game.rounds"></div>
+                            <div   v-for="ochko of game.rounds" @click="sendInfoGame(game, 2)" :value="game.rounds">{{ochko}}</div>
                         </div>
 
                         <div class="col-9 name-second-player">
@@ -61,7 +61,7 @@
 export default{
     data () {
         return {
-            rounds: [0]
+            currentGame: null
         }
     },
     props: {
@@ -69,45 +69,12 @@ export default{
         'games': Array,        
     },
     methods: {
-        clickPlayer(game, num, ochko) {
-            let rounds = game.rounds;
-            this.gameLogic(rounds, num);
-            },
-            gameLogic (rounds, num) {
-                this.thirdRound (rounds, num);
-                this.secondRound (rounds, num);
-                this.firstRound (rounds, num);
-            },
-                firstRound (rounds, num, ochko) {
-                    if (rounds[0] === 0){ 
-                            rounds.push(0)
-                            rounds[0] = num
-                    }
-                },
-                secondRound (rounds, num){
-                    if (rounds[1] === 0){
-                        rounds[1] = num
-                        if (rounds[0] === rounds[1]){
-                            this.getWinner(num)
-                        } else {
-                            rounds.push(0)
-                        }
-                    }
-                },
-                thirdRound (rounds, num){
-                    if (rounds[2] === 0){
-                        rounds[2] = num
-                        if (rounds[0] === rounds[2]){
-                            this.getWinner(num)
-                        }
-                        if (rounds[1] === rounds[2]){
-                            this.getWinner(num)
-                        }
-                    }
-                },
-        getWinner(num){
-            alert('Игрок ' + num + ' выйграл!')
+        takeVariable (game) {
+            this.currentGame = game
         },
+        sendInfoGame(game, num){
+            this.$emit('sendInfoGame', game, num);
+        }
     },
     computed: {
     }
