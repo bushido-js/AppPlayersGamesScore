@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="col-3 points fitst-player">
-                            <div id="p1g1" @click="onClickFirst(game)" v-for="ochko of game.firstUserPoints"></div>
+                            <div  v-for="ochko of game.rounds" @click="clickPlayer(game, 1, ochko)" :value="game.rounds"></div>
                         </div>
 
                     </div>
@@ -34,7 +34,7 @@
                     <div class="row" >
 
                         <div class="col-3 points second-player">
-                            <div id="p2g1" @click="onClickSecond(game)" v-for="ochko of game.secondUserPoints"></div>
+                            <div   v-for="ochko of game.rounds" @click="clickPlayer(game, 2, ochko)" :value="game.rounds"></div>
                         </div>
 
                         <div class="col-9 name-second-player">
@@ -61,7 +61,7 @@
 export default{
     data () {
         return {
-        
+            rounds: [0]
         }
     },
     props: {
@@ -69,47 +69,48 @@ export default{
         'games': Array,        
     },
     methods: {
-
-        onClickFirst(game) {
-            this.addPointsFirstUser(game)
-            console.log('Первый', game.firstUserPoints);
-            this.addPointsSecondUser(game)
-            console.log('Второй',game.secondUserPoints);
-
-        },
-            addPointsFirstUser(g) {
-                let arr = g.firstUserPoints
-                if (this.getSumInArray(arr) < 2) {
-                    if (arr[0] === 0){
-                        arr[0] = 1
-                        return arr.push(0) 
-                    } 
-                    if (arr[1] === 0){
-                        return arr[1] = 1
+        clickPlayer(game, num, ochko) {
+            let rounds = game.rounds;
+            this.gameLogic(rounds, num);
+            },
+            gameLogic (rounds, num) {
+                this.thirdRound (rounds, num);
+                this.secondRound (rounds, num);
+                this.firstRound (rounds, num);
+            },
+                firstRound (rounds, num, ochko) {
+                    if (rounds[0] === 0){ 
+                            rounds.push(0)
+                            rounds[0] = num
                     }
-                }
-            },
-            addPointsSecondUser(g) {
-                let arr = g.firstUserPoints;
-                let arr2 = g.secondUserPoints;
-                if (arr[0] === 1) {
-                    arr2[0] = 0
-                }
-                if (arr[1] === 1) {
-                    arr2[1] = 0
-                } else if(arr[1] === 0) {
-                    arr2[1] = 1
-                }
-            },
-        getSumInArray(arr){
-            let sum = 0;
-            for (let elem of arr){
-                sum += elem
-            }
-            return sum
+                },
+                secondRound (rounds, num){
+                    if (rounds[1] === 0){
+                        rounds[1] = num
+                        if (rounds[0] === rounds[1]){
+                            this.getWinner(num)
+                        } else {
+                            rounds.push(0)
+                        }
+                    }
+                },
+                thirdRound (rounds, num){
+                    if (rounds[2] === 0){
+                        rounds[2] = num
+                        if (rounds[0] === rounds[2]){
+                            this.getWinner(num)
+                        }
+                        if (rounds[1] === rounds[2]){
+                            this.getWinner(num)
+                        }
+                    }
+                },
+        getWinner(num){
+            alert('Игрок ' + num + ' выйграл!')
         },
-       
     },
+    computed: {
+    }
 }
 
 </script>

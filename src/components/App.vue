@@ -33,7 +33,7 @@ export default {
                 id: this.count += 1,
                 firstUser: firstSelected,
                 secondUser: secondSelected,
-                rounds: []
+                rounds: [0]
             }
             if (newGame.firstUser !== '' &&
                 newGame.secondUser !== '' &&
