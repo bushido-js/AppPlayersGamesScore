@@ -19,8 +19,8 @@
                             </div>
                         </div>
 
-                        <div class="col-3 points fitst-player">
-                            <div  v-for="ochko of game.rounds" @click="sendInfoGame(game, 1)" :value="game.rounds">{{ochko}}</div>
+                        <div class="col-3 points first-player">
+                            <div  v-for="point of game.rounds.slice().reverse()" @click="sendInfoGame(game, game.firstUser)" :value="game.rounds" :class="checkBoxStyle(point, game.firstUser)"></div>
                         </div>
 
                     </div>
@@ -34,7 +34,7 @@
                     <div class="row" >
 
                         <div class="col-3 points second-player">
-                            <div   v-for="ochko of game.rounds" @click="sendInfoGame(game, 2)" :value="game.rounds">{{ochko}}</div>
+                            <div v-for="point of game.rounds" @click="sendInfoGame(game, game.secondUser)" :value="game.rounds" :class="checkBoxStyle(point, game.secondUser)"></div>
                         </div>
 
                         <div class="col-9 name-second-player">
@@ -61,7 +61,7 @@
 export default{
     data () {
         return {
-            currentGame: null
+            currentGame: null,
         }
     },
     props: {
@@ -72,22 +72,35 @@ export default{
         takeVariable (game) {
             this.currentGame = game
         },
-        sendInfoGame(game, num){
-            this.$emit('sendInfoGame', game, num);
+        sendInfoGame(game, userId){
+            this.$emit('sendInfoGame', game, userId);
+        },
+        checkBoxStyle(point, num) {
+            if(point === 0){
+                return 'nothing'
+            }
+            if(point === num){
+                return 'win'
+            }
+            if(point !== num){
+                return 'loss'
+            }
         }
     },
-    computed: {
-    }
+    computed: {}
 }
 
 </script>
 
 <style scoped>
-div.win {
+.points div.win {
     background-color: #10ed10;
 }
-div.loss {
+.points div.loss {
     background-color:rgb(223, 7, 7)
+}
+.points div.nothing {
+    background-color:white
 }
 .points div {
     border: 1px solid rgb(126, 125, 125);
@@ -111,11 +124,5 @@ div.loss {
 .wrapper {
     /* border: 1px solid #ced4da; */
     padding: 0.5em 1em;
-}
-.active {
-    background-color: #10ed10;
-}
-.valid {
-    background-color: rgb(223, 7, 7);
 }
 </style>

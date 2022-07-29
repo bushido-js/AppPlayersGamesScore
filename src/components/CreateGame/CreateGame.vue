@@ -47,8 +47,8 @@ export default {
         }
     },
     methods: {
-        sendInfoGame(game, num) {
-            this.$emit('sendInfoGame', game, num)
+        sendInfoGame(game, userId) {
+            this.$emit('sendInfoGame', game, userId)
         },
         firstPlayerSelected(id) {
             this.firstPlayerId = id  

@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="col-6 mb-2">
+    <div class="row mb-2">
+        <div class="col-6">
             <div class="row">
                 <div class="col-6">
                     <input @keyup.enter="sendEvent"  class="form-control" placeholder="Добавьте участника" v-model="value">

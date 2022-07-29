@@ -7,7 +7,10 @@ new Vue({
 }).$mount("#app")
 
 
-let obj = {
-    0: '0'
-}
-console.log(obj[0]);
+var arr1 = [],
+    arr2 = [ 1],
+    res = arr1.filter(item => !arr2.includes(item));
+console.log(res);
+console.log(Boolean(!arr1.length));
+
+console.log(arr2.length);

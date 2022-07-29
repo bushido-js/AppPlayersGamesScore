@@ -15,8 +15,7 @@
 </template>
 
 <script>
-
-
+import Vue from 'vue';
 export default {
       
     data() {
@@ -29,27 +28,6 @@ export default {
         }
     },
     methods: {
-        createGameObject (firstSelected, secondSelected) {
-            const newGame = {
-                id: this.count += 1,
-                firstUser: firstSelected,
-                secondUser: secondSelected,
-                rounds: [0]
-            }
-            if (newGame.firstUser !== '' &&
-                newGame.secondUser !== '' &&
-                newGame.firstUser !== newGame.secondUser
-                ) {
-                this.addGame (newGame)
-            }
-        },
-        addGame(obj) {
-            this.games.push(obj);
-            console.log('games', this.games);//*//
-        },
-
-//-//
-
         createPlayerObject(value) {
             let newPlayer = {};
             if (value.trim()) {
@@ -67,59 +45,111 @@ export default {
         },
         addPlayer(obj) {
             this.players.push(obj);
-            console.log('players', this.players); //*//
         },
 
 //-//
 
-        playGame(game, num) {
-        this.gameLogic(game.rounds, num, game);
-        console.log(this.games);
+        createGameObject (firstSelected, secondSelected) {
+            const newGame = {
+                id: this.count += 1,
+                firstUser: firstSelected,
+                secondUser: secondSelected,
+                rounds: [0]
+            }
+            if (newGame.firstUser !== '' &&
+                newGame.secondUser !== '' &&
+                newGame.firstUser !== newGame.secondUser
+                ) {
+                this.addGame (newGame)
+            }
         },
-        gameLogic (rounds, num, game) {
-            const roundsClone = [];
-            rounds.forEach(round => {
-                roundsClone.push(round);
-            })
-            this.thirdRound (roundsClone, num);
-            this.secondRound (roundsClone, num);
-            this.firstRound (roundsClone, num);  
+        addGame(obj) {
+            this.games.push(obj);
+        },
 
-            game.rounds = roundsClone;
+//-//
+
+        playGame(game, userId) {
+            let rounds = game.rounds;
+            this.gameLogic(rounds, userId, game);
+        },
+        gameLogic (rounds, userId, game) {
+            this.thirdRound (rounds, userId, game);
+            this.secondRound (rounds, userId, game);
+            this.firstRound (rounds, userId);  
         },
         firstRound (rounds, num) {
             if (rounds[0] === 0){ 
-                    rounds.push(0)
-                    rounds[0] = num
+                rounds.push(0)
+                Vue.set(rounds, 0, num)
             }
         },
-        secondRound (rounds, num){
+        secondRound (rounds, num, game){
             if (rounds[1] === 0){
-                rounds[1] = num
+                Vue.set(rounds, 1, num)
                 if (rounds[0] === rounds[1]){
-                    this.getWinner(num)
+                    this.addPoints(game)
                 } else {
                     rounds.push(0)
                 }
             }
         },
-        thirdRound (rounds, num){
+        thirdRound (rounds, num, game){
             if (rounds[2] === 0){
-                rounds[2] = num
+                Vue.set(rounds, 2, num)
                 if (rounds[0] === rounds[2]){
-                    this.getWinner(num)
+                    this.addPoints(game)
                 }
                 if (rounds[1] === rounds[2]){
-                    this.getWinner(num)
+                    this.addPoints(game)
                 }
             }
         },
-        getWinner(num){
-            console.log('Игрок ' + num + ' выйграл!')
+
+//*//
+
+        addPoints(game){
+            const gameId = game.id;
+            let arrPoints = this.getArrRoundPoints(gameId);
+
+            const firstPlayerPoints = arrPoints.filter(item => game.firstUser === item);
+            const secondPlayerPoints = arrPoints.filter(item => !firstPlayerPoints.includes(item));
+
+            this.addPointsForPlayer(firstPlayerPoints, game.firstUser);
+            this.addPointsForPlayer(secondPlayerPoints, game.secondUser);
         },
+        addPointsForPlayer(arr, userId){
+            for(let elem of this.players){
+                if(elem.id === userId){
+                    if(!arr.length){
+                        elem.lossRound += 2;
+                    }
+                    if(arr.length === 1){
+                        elem.lossRound += 2;
+                        elem.winRound += 1;
+                    }
+                    if(arr.length === 2){
+                        elem.winRound += 2;
+                        elem.lossRound += 1;
+
+                        elem.winGame += 1;
+                    }
+                }
+            }
+        },
+        getArrRoundPoints(gameId){
+            let arrPoints = [];
+            for(let elem of this.games){
+                if(elem.id === gameId){
+                    arrPoints = elem.rounds;
+                }
+            }
+            return arrPoints;
+        },
+    },
 
 //-//
-    },
+    
     components: {
         AddNewPlayer: () => import('./AddNewPlayer/AddNewPlayer.vue'),
         CreateGame: () => import('./CreateGame/CreateGame.vue')
