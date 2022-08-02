@@ -109,42 +109,59 @@ export default {
 //*//
 
         addPoints(game){
-            const gameId = game.id;
-            let arrPoints = this.getArrRoundPoints(gameId);
+            const firstId = game.firstUser;
+            const secondId = game.secondUser;
+            const arrPoints = this.getArrRoundPoints(game.id);
 
-            const firstPlayerPoints = arrPoints.filter(item => game.firstUser === item);
-            const secondPlayerPoints = arrPoints.filter(item => !firstPlayerPoints.includes(item));
+            const firstPlayerCountWinRounds = this.takeCountWinRounds(arrPoints, firstId);
+            const secondPlayerCountWinRounds = this.takeCountWinRounds(arrPoints, secondId);
 
-            this.addPointsForPlayer(firstPlayerPoints, game.firstUser);
-            this.addPointsForPlayer(secondPlayerPoints, game.secondUser);
+            this.addPointsForPlayer(firstPlayerCountWinRounds, firstId, arrPoints)
+            this.addPointsForPlayer(secondPlayerCountWinRounds, secondId, arrPoints)
         },
-        addPointsForPlayer(arr, userId){
-            for(let elem of this.players){
-                if(elem.id === userId){
-                    if(!arr.length){
-                        elem.lossRound += 2;
-                    }
-                    if(arr.length === 1){
-                        elem.lossRound += 2;
-                        elem.winRound += 1;
-                    }
-                    if(arr.length === 2){
-                        elem.winRound += 2;
-                        elem.lossRound += 1;
-
-                        elem.winGame += 1;
-                    }
-                }
+        addPointsForPlayer(countRoundWon, userId, gameRounds) {
+            const playerInfo = this.findPlayerInfo(userId);
+            if (countRoundWon === 0){
+                playerInfo.lossRound += 2
             }
+            if (countRoundWon === 1){
+                playerInfo.lossRound += 2
+                playerInfo.winRound += 1
+            }
+            if (countRoundWon === 2 && gameRounds.length === 3){
+                playerInfo.winRound += 2
+                playerInfo.lossRound += 1
+                playerInfo.winGame += 1
+            }
+            if (countRoundWon === 2 && gameRounds.length === 2){
+                playerInfo.winRound += 2
+                playerInfo.winGame += 1
+            }     
+        },
+        findPlayerInfo(userId) {
+            const playerInfo = this.players.reduce((value, player) => {
+                    if (player.id === userId){
+                        value = player;
+                    }
+                    return value
+                }, {})
+            return playerInfo
+        },
+        takeCountWinRounds(arr, userId) {
+            return arr.reduce((id, item) => {
+                if (userId === item){
+                    id += 1
+                }   
+                return id
+            }, 0)
         },
         getArrRoundPoints(gameId){
-            let arrPoints = [];
-            for(let elem of this.games){
-                if(elem.id === gameId){
-                    arrPoints = elem.rounds;
+            return this.games.reduce((arr, game) => {
+                if (game.id === gameId){
+                    arr = game.rounds;
                 }
-            }
-            return arrPoints;
+                return arr;
+            }, [])
         },
     },
 
