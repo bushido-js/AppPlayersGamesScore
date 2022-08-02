@@ -2,6 +2,7 @@
 
     <div class="col-5">
         <select id="selectOne" @change="sendSelect" v-model="selected" class="form-select">
+            <option value="" disabled selected>Выберите игрока</option>
             <option v-for="player in players" :value="player.id">
                 {{player.id}}.
                 {{player.name}}
