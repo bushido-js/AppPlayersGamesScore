@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue.esm.js'
 import 'bootstrap/dist/css/bootstrap.css'
 import App from './components/App.vue'
 
@@ -16,14 +16,13 @@ let arr = [
     {id:4, name:'Misha', rounds:[1, 2, 1]},
     {id:5, name:'Ilya', rounds:[1, 2, 1]},
 ]
-let userId = 3;
-const getArrayFromArr = (arr) => {
-    return arr.reduce((names, user) => {
-        if (user.id === userId){
-            names = user.rounds 
-        }
-        return names;
-    }, [])
+
+console.log(Boolean(arr.length));
+
+function hello (a) {
+    console.log(a);
 }
 
-console.log(getArrayFromArr(arr));
+
+
+

@@ -5,10 +5,11 @@
                 <AddNewPlayerValue 
                     @sendEvent="sendValue"
                 />
-                
-                <AddNewPlayerList 
-                    :players="players"
-                />
+                <div class="col-6">
+                    <AddNewPlayerList 
+                        :players="players"
+                    />
+                </div>
             </div>
             <div class="col-3">
                 <GamePointsInfo />

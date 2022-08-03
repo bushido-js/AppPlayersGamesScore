@@ -58,11 +58,18 @@ export default {
         },
         createGameButtonClicked () {
             this.$emit('createGameButtonClicked', this.firstPlayerId, this.secondPlayerId)
+        },
+        isLastGameOver () {
+            // if (!this.games.length){
+
+            // }
+            console.log(this.games[this.games.length - 1])
         }
+        
     },
     components:{
         CreateGameSelect: () => import ('./CreateGameSelect.vue'),
-        GamesField: () => import('./GameField/GameField.vue')
+        GamesField: () => import('../GameField/GameField.vue')
     }
 
 }

@@ -5,7 +5,7 @@
             @addNewPlayer="createPlayerObject"
         />
     <hr size="5" class="col-6">
-        <CreateGame 
+        <SelectGame
             :players="players"
             :games="games"
             @createGameButtonClicked="createGameObject"
@@ -54,17 +54,26 @@ export default {
                 id: this.count += 1,
                 firstUser: firstSelected,
                 secondUser: secondSelected,
-                rounds: [0]
+                rounds: [0],
+                isOverGame: false
             }
             if (newGame.firstUser !== '' &&
                 newGame.secondUser !== '' &&
                 newGame.firstUser !== newGame.secondUser
                 ) {
-                this.addGame (newGame)
+                if (!this.games.length){
+                    this.addGame (newGame);
+                } else {
+                    let objGame = this.games[this.games.length - 1];
+                    if (objGame.isOverGame){
+                        this.addGame (newGame);
+                    }
+                }  
             }
         },
         addGame(obj) {
             this.games.push(obj);
+            // console.log(this.games);
         },
 
 //-//
@@ -106,7 +115,7 @@ export default {
             }
         },
 
-//*//
+//-//
 
         addPoints(game){
             const firstId = game.firstUser;
@@ -114,46 +123,36 @@ export default {
             const arrPoints = this.getArrRoundPoints(game.id);
 
             const firstPlayerCountWinRounds = this.takeCountWinRounds(arrPoints, firstId);
+            const firstPlayerCountLossRounds = this.takeCountLossRounds(arrPoints, firstId);
             const secondPlayerCountWinRounds = this.takeCountWinRounds(arrPoints, secondId);
+            const secondPlayerCountLossRounds = this.takeCountLossRounds(arrPoints, secondId);
 
-            this.addPointsForPlayer(firstPlayerCountWinRounds, firstId, arrPoints)
-            this.addPointsForPlayer(secondPlayerCountWinRounds, secondId, arrPoints)
+            this.addPointsForPlayer(firstPlayerCountWinRounds, firstPlayerCountLossRounds, firstId)
+            this.addPointsForPlayer(secondPlayerCountWinRounds, secondPlayerCountLossRounds, secondId)
+            game.isOverGame = true
         },
-        addPointsForPlayer(countRoundWon, userId, gameRounds) {
+        addPointsForPlayer(countRoundWon, countRoundLoss, userId) {
             const playerInfo = this.findPlayerInfo(userId);
-            if (countRoundWon === 0){
-                playerInfo.lossRound += 2
-            }
-            if (countRoundWon === 1){
-                playerInfo.lossRound += 2
-                playerInfo.winRound += 1
-            }
-            if (countRoundWon === 2 && gameRounds.length === 3){
-                playerInfo.winRound += 2
-                playerInfo.lossRound += 1
-                playerInfo.winGame += 1
-            }
-            if (countRoundWon === 2 && gameRounds.length === 2){
-                playerInfo.winRound += 2
-                playerInfo.winGame += 1
-            }     
+            playerInfo.lossRound += countRoundLoss;
+            playerInfo.winRound += countRoundWon;
+            playerInfo.winGame += countRoundWon >= 2 ? 1 : 0;    
         },
         findPlayerInfo(userId) {
-            const playerInfo = this.players.reduce((value, player) => {
-                    if (player.id === userId){
-                        value = player;
-                    }
-                    return value
-                }, {})
-            return playerInfo
+            return this.players.find(player => player.id === userId);
         },
         takeCountWinRounds(arr, userId) {
-            return arr.reduce((id, item) => {
-                if (userId === item){
-                    id += 1
-                }   
-                return id
-            }, 0)
+            return arr.reduce((wonRounds, item) => 
+                wonRounds += userId === item 
+                    ? 1 
+                    : 0 
+                , 0)
+        },
+        takeCountLossRounds(arr, userId) {
+            return arr.reduce((lossRounds, item) => 
+                lossRounds += userId !== item 
+                    ? 1 
+                    : 0 
+                , 0)
         },
         getArrRoundPoints(gameId){
             return this.games.reduce((arr, game) => {
@@ -168,8 +167,8 @@ export default {
 //-//
     
     components: {
+        SelectGame: () => import('./CreateTabs/SelectGame.vue'),
         AddNewPlayer: () => import('./AddNewPlayer/AddNewPlayer.vue'),
-        CreateGame: () => import('./CreateGame/CreateGame.vue')
     }
 }
 </script>
