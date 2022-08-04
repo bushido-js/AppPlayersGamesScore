@@ -8,8 +8,14 @@
         <SelectGame
             :players="players"
             :games="games"
+            :playersForTourney="playersForTourney"
+            :tourneys="tourneys"
+            
             @createGameButtonClicked="createGameObject"
             @sendInfoGame="playGame"
+
+            @addPlayerForTourneyList="addPlayerForTourneyList"
+            @removePlayerFromTourneyList="removePlayerFromTourneyList"
         />
     </div>
 </template>
@@ -22,17 +28,36 @@ export default {
         return {
             players: [],
             games: [],
+            tourneys: [],
+            playersForTourney: [],
 
-            index: 0,
-            count: 0
+            indexPlayer: 0,
+            indexGame: 0,
         }
     },
     methods: {
+        
+
+//-//
+
+        removePlayerFromTourneyList(playerId) {
+            let playersForTourney = this.playersForTourney;
+            let playerObj = this.findPlayerInfo(playerId, this.playersForTourney);
+            if (playerObj){
+                let indexPlayer = playersForTourney.indexOf(playerObj);
+                playersForTourney.splice(indexPlayer, 1)
+            }
+        },
+        addPlayerForTourneyList(playerId) {
+            if (this.findPlayerInfo(playerId, this.playersForTourney )) return;
+
+            this.playersForTourney.push(this.findPlayerInfo(playerId, this.players))
+        },
         createPlayerObject(value) {
             let newPlayer = {};
             if (value.trim()) {
                 newPlayer = {
-                    id: this.index += 1,
+                    id: this.indexPlayer += 1,
                     name: value,
                     winRound: 0,
                     lossRound: 0, 
@@ -51,7 +76,7 @@ export default {
 
         createGameObject (firstSelected, secondSelected) {
             const newGame = {
-                id: this.count += 1,
+                id: this.indexGame += 1,
                 firstUser: firstSelected,
                 secondUser: secondSelected,
                 rounds: [0],
@@ -60,20 +85,23 @@ export default {
             if (newGame.firstUser !== '' &&
                 newGame.secondUser !== '' &&
                 newGame.firstUser !== newGame.secondUser
-                ) {
-                if (!this.games.length){
-                    this.addGame (newGame);
-                } else {
-                    let objGame = this.games[this.games.length - 1];
-                    if (objGame.isOverGame){
-                        this.addGame (newGame);
-                    }
-                }  
+                ) { 
+                    this.addGame(newGame)
+                                                                //return newGame, и уже в методах игры и турниров использовать 
+                                                                // это позволит добавлять в игры отдельно и в турниры отдельно используя один метод
+                    // this.addGame(newGame, this.games)
+                // if (!this.games.length){
+                //     this.addGame (newGame, this.games);
+                // } else {
+                //     let objGame = this.games[this.games.length - 1];
+                //     if (objGame.isOverGame){
+                //         this.addGame (newGame, this.games);
+                //     }
+                // }  
             }
         },
         addGame(obj) {
-            this.games.push(obj);
-            // console.log(this.games);
+           this.games.push(obj)
         },
 
 //-//
@@ -89,7 +117,7 @@ export default {
         },
         firstRound (rounds, num) {
             if (rounds[0] === 0){ 
-                rounds.push(0)
+                rounds.push(0) //pizdec
                 Vue.set(rounds, 0, num)
             }
         },
@@ -132,13 +160,13 @@ export default {
             game.isOverGame = true
         },
         addPointsForPlayer(countRoundWon, countRoundLoss, userId) {
-            const playerInfo = this.findPlayerInfo(userId);
+            const playerInfo = this.findPlayerInfo(userId, this.players);
             playerInfo.lossRound += countRoundLoss;
             playerInfo.winRound += countRoundWon;
-            playerInfo.winGame += countRoundWon >= 2 ? 1 : 0;    
+            playerInfo.winGame += countRoundWon >= 2 ? 1 : 0;    //pizdec // >= 2
         },
-        findPlayerInfo(userId) {
-            return this.players.find(player => player.id === userId);
+        findPlayerInfo(userId, players) {
+            return players.find(player => player.id === userId);
         },
         takeCountWinRounds(arr, userId) {
             return arr.reduce((wonRounds, item) => 

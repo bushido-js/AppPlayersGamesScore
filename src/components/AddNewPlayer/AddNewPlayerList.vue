@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="list-group">
-            <li class="list-group-item" v-for="player of players">
+            <li class="list-group-item" v-for="player of players" @click="clickIdPlayer(player.id)">
                 <strong > {{player.id}} </strong>
                 <span>{{player.name }}</span>
                 <span class="badge bg-primary rounded-pill">{{ player.winRound }}</span>
@@ -17,9 +17,25 @@
 <script>
 
 export default{
+    data() {
+        return{
+            addPlayerForTourneyList: null
+        }
+    },
     props: {
         'players': Array
     },
+    methods: {
+        clickIdPlayer(id) {
+            // let strong = e.target.closest('strong');
+            // let span = e.target.closest('span');
+            // if (e.target == strong || e.target == span) return;
+
+            // this.addPlayerForTourneyList = Number(e.path[0].childNodes[0].innerText);
+            this.$emit('addPlayerForTourneyList', id)
+            
+        }
+    }
 }
 
 </script>

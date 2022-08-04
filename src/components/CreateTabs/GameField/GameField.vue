@@ -1,6 +1,6 @@
 <template>
     <ul class="list-group ulGame">
-        <li class="list-group-item liGame mb-2 border" v-for="game of games" :value="takeVariable(game)">
+        <li class="list-group-item liGame mb-2 border" v-for="game of games">
             <div class="row wrapper mt-1">
 
                 <div class="col-5 border">
@@ -66,12 +66,9 @@ export default{
     },
     props: {
         'players': Array,
-        'games': Array,        
+        'games': Array,     
     },
     methods: {
-        takeVariable (game) {
-            this.currentGame = game
-        },
         sendInfoGame(game, userId){
             this.$emit('sendInfoGame', game, userId);
         },

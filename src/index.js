@@ -17,11 +17,9 @@ let arr = [
     {id:5, name:'Ilya', rounds:[1, 2, 1]},
 ]
 
-console.log(Boolean(arr.length));
+console.log(arr[0].id);
 
-function hello (a) {
-    console.log(a);
-}
+
 
 
 
