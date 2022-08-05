@@ -11,8 +11,9 @@
                 <CreateGame 
                     :players="players"
                     :games="games"
+
                     @createGameButtonClicked="createGameButtonClicked"
-                    @sendInfoGame="sendInfoGame"
+                    @sendInfoGameTwoPlayers="sendInfoGameTwoPlayers"
                 />
             </div>
             <div class="tab-pane" :class="[currentTab == 'createTournament' ? showAndActiveClass : '']"  v-if="currentTab == 'createTournament'">
@@ -20,9 +21,12 @@
                     :players="players"
                     :playersForTourney="playersForTourney"
                     :tourneys="tourneys"
+
                     @addPlayerForTourneyList="addPlayerForTourneyList"
                     @removePlayerFromTourneyList="removePlayerFromTourneyList"
+
                     @sendEvent="sendEvent"
+                    @sendInfoGamesTourneys="sendInfoGamesTourneys"
                 />
             </div>
         </div>
@@ -50,8 +54,11 @@ export default{
         CreateGame: () => import('./CreateGame/CreateGame.vue')
     },
     methods: { 
-        sendInfoGame(game, userId) {
-            this.$emit('sendInfoGame', game, userId)
+        sendInfoGameTwoPlayers(game, userId) {
+            this.$emit('sendInfoGameTwoPlayers', game, userId)
+        },
+        sendInfoGamesTourneys (game, userId) {
+            this.$emit('sendInfoGamesTourneys', game, userId)
         },
         createGameButtonClicked(value1, value2) {
             this.$emit('createGameButtonClicked', value1, value2)
@@ -62,8 +69,8 @@ export default{
         removePlayerFromTourneyList (id) {
             this.$emit('removePlayerFromTourneyList', id)
         },
-        sendEvent(e) {
-            this.$emit('sendEvent', e)
+        sendEvent() {
+            this.$emit('sendEvent')
         },
     }
 }

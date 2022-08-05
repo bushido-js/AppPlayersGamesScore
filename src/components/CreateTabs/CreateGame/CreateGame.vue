@@ -28,7 +28,7 @@
             :players="players"
             :games="games"
 
-            @sendInfoGame="sendInfoGame"
+            @sendInfoGame="sendInfoGameTwoPlayers"
         />
     </div>
 
@@ -47,8 +47,8 @@ export default {
         }
     },
     methods: {
-        sendInfoGame(game, userId) {
-            this.$emit('sendInfoGame', game, userId)
+        sendInfoGameTwoPlayers(game, userId) {
+            this.$emit('sendInfoGameTwoPlayers', game, userId)
         },
         firstPlayerSelected(id) {
             this.firstPlayerId = id  

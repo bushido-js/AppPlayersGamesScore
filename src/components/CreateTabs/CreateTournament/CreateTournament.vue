@@ -31,10 +31,16 @@
                 </div>
             </div>
             <div class="col-sm-2 div-button">
-                <button type="submit" class="btn btn-outline-primary align-middle" >Создать Турнир</button>
+                <button type="submit" class="btn btn-outline-primary align-middle" @click="sendEvent">Создать Турнир</button>
             </div>
         </div>
         <hr class="mt-2">
+        <GamesField 
+            :players="playersForTourney"
+            :games="tourneys"
+
+            @sendInfoGame="sendInfoGamesTourneys"
+        />
     </div>
 </template>
 
@@ -62,9 +68,12 @@ export default{
         removePlayer(id) {
             this.$emit('removePlayerFromTourneyList', id)
         },
-        // sendEvent() {
-        //     this.$emit('sendEvent')
-        // },
+        sendEvent() {
+            this.$emit('sendEvent')
+        },
+        sendInfoGamesTourneys(game, userId) {
+            this.$emit('sendInfoGamesTourneys', game, userId)
+        },
     },
 }
 </script>
