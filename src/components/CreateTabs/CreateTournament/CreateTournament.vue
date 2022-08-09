@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="col-sm-2 div-button">
-                <button type="submit" class="btn btn-outline-primary align-middle" @click="sendEvent">Создать Турнир</button>
+                <button type="submit" class="btn btn-outline-primary align-middle" @click="createTourneyButtonClicked">Создать Турнир</button>
             </div>
         </div>
         <hr class="mt-2">
@@ -68,8 +68,8 @@ export default{
         removePlayer(id) {
             this.$emit('removePlayerFromTourneyList', id)
         },
-        sendEvent() {
-            this.$emit('sendEvent')
+        createTourneyButtonClicked() {
+            this.$emit('createTourneyButtonClicked')
         },
         sendInfoGamesTourneys(game, userId) {
             this.$emit('sendInfoGamesTourneys', game, userId)

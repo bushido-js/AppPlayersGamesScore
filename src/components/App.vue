@@ -15,7 +15,7 @@
             @sendInfoGameTwoPlayers="playGameTwoPlayers"
             @sendInfoGamesTourneys="playGameTourneys"
 
-            @sendEvent="createTourney"
+            @createTourneyButtonClicked="createTourney"
 
             @addPlayerForTourneyList="addPlayerForTourneyList"
             @removePlayerFromTourneyList="removePlayerFromTourneyList"
@@ -55,17 +55,9 @@ export default {
             let arr = this.playersForTourney;
             for (let i = 0; i < arr.length - 1; i++) {
                 for (let j = i + 1; j < arr.length; j++) {
-                    console.log(i, j, arr);
                     this.addGameTourney(arr[i].id, arr[j].id)
                 }
             }
-        },
-        factorial(n) {
-            let num = 1;
-            for (let i = 1; i <= n; i++){
-                num *= i;
-            }
-            return num;
         },
         addGameTourney(player1, player2) {
            this.tourneys.push(this.createGameObject(player1, player2));
@@ -118,21 +110,23 @@ export default {
             if (newGame.firstUser !== '' &&
                 newGame.secondUser !== '' &&
                 newGame.firstUser !== newGame.secondUser
-                ) { 
-                    return newGame
-                //     this.addGame(newGame, this.games)
+                ) {
+                    return newGame; 
                 // if (!this.games.length){
                 //     return newGame;
                 // } else {
                 //     let objGame = this.games[this.games.length - 1];
                 //     if (objGame.isOverGame){
-                //         this.addGame (newGame, this.games);
+                //         return newGame;
                 //     }
                 // }  
             }
         },
         addGame(player1, player2) {
-           this.games.push(this.createGameObject(player1, player2));
+            const objGame = this.createGameObject(player1, player2)
+            if (objGame !== undefined) {
+                this.games.push(objGame);
+            }
         },
 
 //-//

@@ -27,13 +27,7 @@ export default{
     },
     methods: {
         clickIdPlayer(id) {
-            // let strong = e.target.closest('strong');
-            // let span = e.target.closest('span');
-            // if (e.target == strong || e.target == span) return;
-
-            // this.addPlayerForTourneyList = Number(e.path[0].childNodes[0].innerText);
             this.$emit('addPlayerForTourneyList', id)
-            
         }
     }
 }

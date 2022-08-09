@@ -3,7 +3,7 @@
         <nav>
             <div class="nav nav-tabs mb-2" >
                 <button class="nav-link" @click="currentTab = 'createGame'" :class="[currentTab == 'createGame' ? activeClass : '']" type="button">Создать Игру</button>
-                <button class="nav-link" @click="currentTab = 'createTournament'" :class="[currentTab == 'createTournament' ? activeClass : '']" type="button">Создать Турнир</button>
+                <!-- <button class="nav-link" @click="currentTab = 'createTournament'" :class="[currentTab == 'createTournament' ? activeClass : '']" type="button">Создать Турнир</button> -->
             </div>
         </nav>
         <div class="tab-content">
@@ -17,7 +17,7 @@
                 />
             </div>
             <div class="tab-pane" :class="[currentTab == 'createTournament' ? showAndActiveClass : '']"  v-if="currentTab == 'createTournament'">
-                <CreateTournament
+                <!-- <CreateTournament
                     :players="players"
                     :playersForTourney="playersForTourney"
                     :tourneys="tourneys"
@@ -25,9 +25,9 @@
                     @addPlayerForTourneyList="addPlayerForTourneyList"
                     @removePlayerFromTourneyList="removePlayerFromTourneyList"
 
-                    @sendEvent="sendEvent"
+                    @createTourneyButtonClicked="createTourneyButtonClicked"
                     @sendInfoGamesTourneys="sendInfoGamesTourneys"
-                />
+                /> -->
             </div>
         </div>
     </div>
@@ -69,8 +69,8 @@ export default{
         removePlayerFromTourneyList (id) {
             this.$emit('removePlayerFromTourneyList', id)
         },
-        sendEvent() {
-            this.$emit('sendEvent')
+        createTourneyButtonClicked() {
+            this.$emit('createTourneyButtonClicked')
         },
     }
 }
