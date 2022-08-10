@@ -25,6 +25,7 @@
 
 <script>
 import Vue from 'vue';
+import {mapGetters} from 'vuex'
 export default {
       
     data() {
@@ -38,7 +39,13 @@ export default {
             indexGame: 0,
         }
     },
+    computed:{
+        playerssdfsdf () {
+            return this.$store.state.count
+        }
+    },
     mounted() {
+        console.log(this.playerssdfsdf);
         this.createMockData();
     },
     methods: {

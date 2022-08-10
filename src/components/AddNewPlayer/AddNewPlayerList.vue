@@ -25,6 +25,9 @@ export default{
     props: {
         'players': Array
     },
+    // props: {
+    //     'players': Array
+    // },
     methods: {
         clickIdPlayer(id) {
             this.$emit('addPlayerForTourneyList', id)
