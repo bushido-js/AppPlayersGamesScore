@@ -1,12 +1,12 @@
 <template>
     <div class="container mt-2">
+        <!-- <TestField />
+        <hr size="5" class="col-6 mt-5"> -->
         <PlayersContainer
-            :players="players"
             @addNewPlayer="createPlayerObject"
         />
         <hr size="5" class="col-6">
         <TabsContainer
-            :players="players"
             :games="games"
             :playersForTourney="playersForTourney"
             :tourneys="tourneys"
@@ -25,17 +25,17 @@
 
 <script>
 import Vue from 'vue';
-import {mapGetters} from 'vuex'
+import { mapActions, mapState } from 'vuex';
 export default {
 
     components: {
-        TabsContainer: () => import('./Tabs/TabsContainer.vue'),
-        PlayersContainer: () => import('./Players/PlayersContainer.vue'),
+        TestField:() => import('./TestField.vue'),
+        TabsContainer:() => import('./Tabs/TabsContainer.vue'),
+        PlayersContainer:() => import('./Players/PlayersContainer.vue'),
     },
 
     data() {
         return {
-            players: [],
             games: [],
             tourneys: [],
             playersForTourney: [],
@@ -45,15 +45,15 @@ export default {
         }
     },
     computed:{
-        playerssdfsdf () {
-            return this.$store.state.count
+        players() {
+            return this.$store.state.players
         }
     },
     mounted() {
-        console.log(this.playerssdfsdf);
         this.createMockData();
     },
     methods: {
+        ...mapState(['players']),
         createMockData() {
             this.createPlayerObject("Олег");
             this.createPlayerObject("Влег");
@@ -85,6 +85,7 @@ export default {
                 playersForTourney.splice(indexPlayer, 1);
             }
         },
+        
         addPlayerForTourneyList(playerId) {
             if (this.findPlayerInfo(playerId, this.playersForTourney )) return;
 
@@ -102,12 +103,14 @@ export default {
                 }
             }
             if (Object.keys(newPlayer).length) {
-                this.addPlayer (newPlayer);
+                this.addPlayer(newPlayer);
             }
         },
+        ...mapActions(['createNewPlayer']),
         addPlayer(obj) {
-            this.players.push(obj);
+            this.createNewPlayer(obj)
         },
+        
 
 //-//
 

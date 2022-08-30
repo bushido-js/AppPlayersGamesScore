@@ -9,7 +9,6 @@
         <div class="tab-content">
             <div class="tab-pane" :class="[currentTab == 'createGame' ? showAndActiveClass : '']" v-if="currentTab == 'createGame'">
                 <GamesContainer
-                    :players="players"
                     :games="games"
 
                     @createGameButtonClicked="createGameButtonClicked"
@@ -36,12 +35,16 @@
 
 <script>
 export default{
+    computed:{
+        players () {
+            return this.$store.state.players
+        }
+    },
     components: {
         TournamentsContainer: () => import('../Tournaments/TournamentsContainer.vue'),
         GamesContainer: () => import('../Games/GamesContainer.vue')
     },
     props:{
-        'players': Array,
         'games': Array,
         'playersForTourney': Array,
         'tourneys': Array

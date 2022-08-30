@@ -1,15 +1,12 @@
 <template>
     <div>
         <GameCreator
-            :players="players"
-            
             @createGameButtonClicked="createGameButtonClicked"
         />
         <hr>
         <GameField
             :players="players"
             :games="games"
-
             @sendInfoGame="sendInfoGameTwoPlayers"
         />
     </div>
@@ -18,12 +15,16 @@
 
 <script>
 export default {
+    computed:{
+        players () {
+            return this.$store.state.players
+        }
+    },
     components:{
         GameCreator: () => import('./GameCreator/GameCreator.vue'),
         GameField: () => import('./GameField/GameField.vue')
     },
     props: {
-        'players': Array,
         'games': Array
     },
     methods: {

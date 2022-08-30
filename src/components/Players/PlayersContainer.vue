@@ -7,9 +7,7 @@
                 />
                 <div class="row">
                     <div class="col-6">
-                        <PlayersList
-                            :players="players"
-                        />
+                        <PlayersList/>
                     </div>
                     <div class="">
                         <!-- <GamePointsInfo /> -->
@@ -23,9 +21,6 @@
 <script>
 
 export default {
-    props: {
-        'players': Array        
-    },
     components: {
         GamePointsInfo: () => import('./GamePointsInfo.vue'),
         PlayersInput: () => import('./PlayersInput.vue'),

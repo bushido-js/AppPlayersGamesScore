@@ -19,13 +19,15 @@
 
 <script>
 export default {
+    computed:{
+        players () {
+            return this.$store.state.players
+        }
+    },
     data () {
         return {
             selected: ''
         }
-    },
-    props: {
-        'players': Array,
     },
     methods: {
         sendSelect () {

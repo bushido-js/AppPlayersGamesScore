@@ -3,7 +3,6 @@
         <div class="col-6">
             <div class="row">
                 <PlayersSelector
-                    :players="players"
                     @sendSelect="firstPlayerSelected"
                 />
                 
@@ -12,7 +11,6 @@
                 </div>
     
                 <PlayersSelector
-                    :players="players"
                     @sendSelect="secondPlayerSelected"
                 />
                 
@@ -35,9 +33,6 @@ export default{
     },
     components:{
         PlayersSelector:() => import('/src/components/Players/PlayersSelector.vue')
-    },
-    props: {
-        'players': Array,
     },
     methods:{
         firstPlayerSelected(id) {
