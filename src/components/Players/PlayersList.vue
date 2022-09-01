@@ -15,22 +15,19 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 export default{
     computed:{
         players () {
             return this.$store.state.players
         }
     },
-    data() {
-        return{
-            addPlayerForTourneyList: null
-        }
-    },
     methods: {
+        ...mapActions(['addPlayerForTourneyList']),
         clickIdPlayer(id) {
-            this.$emit('addPlayerForTourneyList', id)
+            this.addPlayerForTourneyList(id)
         }
+       
     },
 }
 

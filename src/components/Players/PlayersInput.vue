@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
     data() {
         return {
@@ -23,8 +24,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['createPlayerObject']),
         submit() {
-            this.$emit('sendEvent', this.value);
+            this.createPlayerObject(this.value)
             this.clearInput();
         },
         clearInput() {

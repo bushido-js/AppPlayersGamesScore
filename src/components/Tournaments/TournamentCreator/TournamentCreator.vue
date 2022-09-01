@@ -4,9 +4,7 @@
             <div class="row">
                 <div>
                     <h5 class="">Выберете игроков для Турнира</h5>
-                    <PlayersList
-                        @addPlayerForTourneyList="addPlayerForTourneyList"
-                    />
+                    <PlayersList/>
                 </div>
             </div>
         </div>
@@ -35,30 +33,27 @@
 </template>
 
 <script>
-    export default{ 
-        components:{
-            PlayersList: () => import("/src/components/Players/PlayersList.vue"),
-        },
-        data() {
-            return {
-                removePlayerId: null,
-            }
-        },
-        props: {
-            'playersForTourney': Array,
-        },
-        methods:{
-            addPlayerForTourneyList (id) {
-                this.$emit('addPlayerForTourneyList', id)
-            },
-            removePlayer(id) {
-                this.$emit('removePlayerFromTourneyList', id)
-            },
-            createTourneyButtonClicked() {
-                this.$emit('createTourneyButtonClicked')
-            },
+import { mapActions } from 'vuex';
+export default{ 
+    computed:{
+        playersForTourney(){
+            return this.$store.state.playersForTourney;
         }
+    },
+    components:{
+        PlayersList: () => import("/src/components/Players/PlayersList.vue"),
+    },
+    methods:{
+        ...mapActions(['removePlayerFromTourneyList']),
+        ...mapActions(['createTourneyObject']),
+        removePlayer(id) {
+            this.removePlayerFromTourneyList(id)
+        },
+        createTourneyButtonClicked() {
+            this.createTourneyObject()
+        },
     }
+}
 </script>
 <style scoped>
     .div-button {

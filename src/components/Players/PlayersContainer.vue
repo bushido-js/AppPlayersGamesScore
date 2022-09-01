@@ -2,14 +2,12 @@
     <div> 
         <div class="row">
             <div class="">
-                <PlayersInput
-                    @sendEvent="sendValue"
-                />
+                <PlayersInput/>
                 <div class="row">
                     <div class="col-6">
                         <PlayersList/>
                     </div>
-                    <div class="">
+                    <div class="col-6">
                         <!-- <GamePointsInfo /> -->
                     </div>
                 </div>
@@ -26,10 +24,5 @@ export default {
         PlayersInput: () => import('./PlayersInput.vue'),
         PlayersList: () => import('./PlayersList.vue')
     }, 
-    methods: {
-        sendValue (value) {
-            this.$emit('addNewPlayer', value);  
-        }
-    }
 }
 </script>

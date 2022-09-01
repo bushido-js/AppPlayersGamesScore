@@ -1,8 +1,6 @@
 <template>
     <div>
-        <GameCreator
-            @createGameButtonClicked="createGameButtonClicked"
-        />
+        <GameCreator/>
         <hr>
         <GameField
             :players="players"
@@ -14,27 +12,25 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
-    computed:{
-        players () {
-            return this.$store.state.players
-        }
-    },
     components:{
         GameCreator: () => import('./GameCreator/GameCreator.vue'),
         GameField: () => import('./GameField/GameField.vue')
     },
-    props: {
-        'games': Array
+    computed:{
+        players () {
+            return this.$store.state.players
+        },
+        games() {
+            return this.$store.state.games
+        }
     },
     methods: {
+        ...mapActions(['playGameTwoPlayers']),
         sendInfoGameTwoPlayers(game, userId) {
-            this.$emit('sendInfoGameTwoPlayers', game, userId)
+            this.playGameTwoPlayers({game, userId})
         },
-        createGameButtonClicked (value1, value2) {
-            this.$emit('createGameButtonClicked', value1, value2)
-        },
-
     },
 
 }

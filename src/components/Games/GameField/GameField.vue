@@ -59,11 +59,6 @@
 
 <script>
 export default{
-    data () {
-        return {
-            currentGame: null,
-        }
-    },
     props: {
         'players': Array,
         'games': Array,     
@@ -103,7 +98,6 @@ export default{
     min-height: 1em;
     min-width: 1em;
     border-radius: 20%;
-    /* padding: 0; */
     margin:auto 5px;
 }
 .points {

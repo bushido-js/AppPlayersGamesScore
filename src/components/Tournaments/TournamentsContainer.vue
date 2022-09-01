@@ -1,13 +1,6 @@
 <template>
     <div >
-        <TournamentCreator 
-            :playersForTourney="playersForTourney"
-
-            @addPlayerForTourneyList="addPlayerForTourneyList"
-            @removePlayerFromTourneyList="removePlayerFromTourneyList"
-
-            @createTourneyButtonClicked="createTourneyButtonClicked"
-        />
+        <TournamentCreator />
         <hr class="mt-2">
         <GameField
             :players="playersForTourney"
@@ -19,33 +12,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default{
-    computed:{
-        players () {
-            return this.$store.state.players
-        }
-    },
     components: {
         TournamentCreator: () => import("./TournamentCreator/TournamentCreator.vue"),
         GameField: () => import("../Games/GameField/GameField.vue")
     },
-    props: {
-        'games': Array,
-        'playersForTourney': Array,
-        'tourneys': Array
+    computed:{
+        playersForTourney(){
+            return this.$store.state.playersForTourney
+        },
+        tourneys(){
+            return this.$store.state.tourneys
+        }
     },
     methods: {
-        addPlayerForTourneyList (id) {
-            this.$emit('addPlayerForTourneyList', id)
-        },
-        removePlayerFromTourneyList (id) {
-            this.$emit('removePlayerFromTourneyList', id)
-        },
+        ...mapActions(['playGameTourneys']),
         sendInfoGamesTourneys(game, userId) {
-            this.$emit('sendInfoGamesTourneys', game, userId)
-        },
-        createTourneyButtonClicked() {
-            this.$emit('createTourneyButtonClicked')
+            this.playGameTourneys({game, userId})
         },
     },
 }

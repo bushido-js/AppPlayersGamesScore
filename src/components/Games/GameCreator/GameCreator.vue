@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default{
     data() {
         return {
@@ -41,8 +42,9 @@ export default{
         secondPlayerSelected(id) {
             this.secondPlayerId = id
         },
+        ...mapActions(['createGameObject']),
         createGameButtonClicked () {
-            this.$emit('createGameButtonClicked', this.firstPlayerId, this.secondPlayerId)
+            this.createGameObject({1:this.firstPlayerId, 2:this.secondPlayerId})
         },  
     },
 }
