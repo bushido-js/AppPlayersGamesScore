@@ -9,7 +9,6 @@
 <script>
 import { mapActions } from 'vuex';
 export default {
-
     components: {
         TabsContainer:() => import('./Tabs/TabsContainer.vue'),
         PlayersContainer:() => import('./Players/PlayersContainer.vue'),

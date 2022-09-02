@@ -45,12 +45,12 @@ export default{
     },
     methods:{
         ...mapActions(['removePlayerFromTourneyList']),
-        ...mapActions(['createTourneyObject']),
+        ...mapActions(['createTourneyObjectForGames']),
         removePlayer(id) {
             this.removePlayerFromTourneyList(id)
         },
         createTourneyButtonClicked() {
-            this.createTourneyObject()
+            this.createTourneyObjectForGames()
         },
     }
 }
