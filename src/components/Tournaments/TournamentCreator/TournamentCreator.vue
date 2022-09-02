@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row " :class="{hide: isHide}">
         <div class="col-sm-5">
             <div class="row">
                 <div>
@@ -40,6 +40,11 @@ export default{
             return this.$store.state.playersForTourney;
         }
     },
+    data() {
+        return {
+            isHide: false,
+        }
+    },
     components:{
         PlayersList: () => import("/src/components/Players/PlayersList.vue"),
     },
@@ -50,7 +55,8 @@ export default{
             this.removePlayerFromTourneyList(id)
         },
         createTourneyButtonClicked() {
-            this.createTourneyObjectForGames()
+            this.createTourneyObjectForGames();
+            this.isHide = true;
         },
     }
 }
@@ -61,5 +67,8 @@ export default{
     }
     .div-button button{
         width: 100%;
+    }
+    .hide{
+        display:none;
     }
 </style>

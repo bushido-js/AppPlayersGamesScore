@@ -5,7 +5,7 @@ import Vue from 'vue/dist/vue.esm.js'
 Vue.use(Vuex)
 
 // Ниже функции которые используются несколько раз, и чтобы их не дублировать, я их вынес в основной файл, не знаю на сколько это верно, но работает.
-// GlobalFunctions START
+// // GlobalFunctions START
 
 // Переменная для id всех игр, чтобы каждая игра и обычная, и турнирная имела свой уникальный ID
 let idGame = 0;
@@ -90,18 +90,20 @@ function findPlayerInfo(userId, array) {
 };
 function createGameObject (firstPlayer, secondPlayer) {
     const newGame = {
-        id: idGame += 1,
+        id: idGame,
         firstUser: firstPlayer,
         secondUser: secondPlayer,
         rounds: [0],
         isOverGame: false
     }
-    if (newGame.firstUser !== '' &&
-        newGame.secondUser !== '' &&
+    if (newGame.firstUser  &&
+        newGame.secondUser  &&
         newGame.firstUser !== newGame.secondUser
         ){
+        idGame = newGame.id += 1
         return newGame 
     }
+    
 }
 // // GlobalFunctions END
 
@@ -122,10 +124,14 @@ export default new Vuex.Store({
             state.players.push(obj);
         },
         createNewGame(state, obj){
+            // console.log(idGame);
+            // let param = findGameInfo(idGame, state.games)
             if (obj !== undefined) {
-                state.games.push(obj);
+                    state.games.push(obj);
             }
         },
+        
+            // console.log(param.isOverGame);
         addPlayerForTourneyList(state, playerId){
             if (findPlayerInfo(playerId, state.playersForTourney )) return;
             state.playersForTourney.push(findPlayerInfo(playerId, state.players));
@@ -148,6 +154,7 @@ export default new Vuex.Store({
             function addGameTourney(firstPlayer, secondPlayer){
                 state.tourneys.push(createGameObject(firstPlayer, secondPlayer));
             }
+            console.log('tourneys',  state.tourneys);
         },
         playGameTwoPlayers(state, payload){
             return gameLogic(payload.rounds, payload.userId, payload.game, state.players, state.games)
@@ -174,8 +181,8 @@ export default new Vuex.Store({
                 store.commit('createNewPlayer', newPlayer)
             }
         },
-        createGameObject (store, {1:firstPlayer, 2:secondPlayer}) { 
-            return store.commit('createNewGame', createGameObject(firstPlayer, secondPlayer)); 
+        createGameObject (store, payload) { 
+            return store.commit('createNewGame', createGameObject(payload[1], payload[2])); 
         },
 
         createTourneyObjectForGames(store) {
