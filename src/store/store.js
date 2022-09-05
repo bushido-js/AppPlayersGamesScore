@@ -125,8 +125,8 @@ export default new Vuex.Store({
         }
     },
     mutations:{
-        createNewPlayer(state, obj){
-            state.players.push(obj);
+        addPlayer(state, player){
+            state.players.push(player);
         },
         createNewGame(state, obj){
             // console.log(idGame);
@@ -184,20 +184,16 @@ export default new Vuex.Store({
 
 
     actions:{
-        createPlayerObject(store, value) {
-            let newPlayer = {};
-            if (value.trim()) {
-                newPlayer = {
-                    id: store.state.indexPlayer += 1,
-                    name: value,
-                    winRound: 0,
-                    lossRound: 0, 
-                    winGame: 0 
-                }
+        createPlayer(store, value) {
+            let newPlayer = {
+                id: store.state.indexPlayer += 1,
+                name: value,
+                winRound: 0,
+                lossRound: 0, 
+                winGame: 0 
             }
-            if (Object.keys(newPlayer).length) {
-                store.commit('createNewPlayer', newPlayer)
-            }
+
+            store.commit('addPlayer', newPlayer)
         },
         createGameObject (store, payload) { 
             return store.commit('createNewGame', createGameObject(payload[1], payload[2])); 

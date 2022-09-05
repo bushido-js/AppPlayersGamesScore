@@ -24,10 +24,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['createPlayerObject']),
+        ...mapActions(['createPlayer']),
         submit() {
-            this.createPlayerObject(this.value)
-            this.clearInput();
+            const name = this.value;
+            if (name.trim()) {
+                this.createPlayer(name);
+                this.clearInput();
+            }
         },
         clearInput() {
             this.value = "";

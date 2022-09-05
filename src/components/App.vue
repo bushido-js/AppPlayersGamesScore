@@ -17,20 +17,14 @@ export default {
         this.createMockData();
     },
     methods: {
-        ...mapActions(['createPlayerObject']),
+        ...mapActions(['createPlayer']),
         createMockData() {
-            this.createPlayerObject("Олег");
-            this.createPlayerObject("Влег");
-            this.createPlayerObject("Влад");
-            this.createPlayerObject("Миша");
-            this.createPlayerObject("Шиша");
+            this.createPlayer("Олег");
+            this.createPlayer("Влег");
+            this.createPlayer("Влад");
+            this.createPlayer("Миша");
+            this.createPlayer("Шиша");
         },
     }
 }
 </script>
-
-<style>
-body {
-    background-color: gray;
-}
-</style> 
