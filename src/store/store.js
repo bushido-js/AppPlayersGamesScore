@@ -116,9 +116,14 @@ export default new Vuex.Store({
         tourneys:[],
 
         indexPlayer: 0,
-        indexGame: idGame
+        indexGame: idGame,
+        indexTourney: 0,
     },
-    getters:{},
+    getters:{
+        currentTourney (state){
+            return state.tourneys[state.indexTourney - 1]
+        }
+    },
     mutations:{
         createNewPlayer(state, obj){
             state.players.push(obj);
@@ -145,22 +150,35 @@ export default new Vuex.Store({
         }, 
         createTourneyObjectForGames(state) {
             const k = 2;
+
+            state.indexTourney += 1;
+            state.tourneys.push([]);
+            
             let arr = state.playersForTourney;
             for (let i = 0; i < arr.length - 1; i++) {
                 for (let j = i + 1; j < arr.length; j++) {
                     addGameTourney(arr[i].id, arr[j].id)
                 }
             };
+
             function addGameTourney(firstPlayer, secondPlayer){
-                state.tourneys.push(createGameObject(firstPlayer, secondPlayer));
+                state.tourneys[state.indexTourney - 1].push(createGameObject(firstPlayer, secondPlayer));
             }
+
+
+            const lastGameIndex = state.tourneys.length - 1; 
+            const lastGameObj = state.tourneys[lastGameIndex];
+            const isOverGame = lastGameObj.isOverGame
             console.log('tourneys',  state.tourneys);
+            console.log('lastGame',  lastGameIndex);
+            console.log('lastGameObj',  lastGameObj);
+            console.log('isOverGame',  isOverGame);
         },
         playGameTwoPlayers(state, payload){
             return gameLogic(payload.rounds, payload.userId, payload.game, state.players, state.games)
         },
         playGameTourneys(state, payload){
-            return gameLogic(payload.rounds, payload.userId, payload.game, state.playersForTourney, state.tourneys)
+            return gameLogic(payload.rounds, payload.userId, payload.game, state.playersForTourney, state.tourneys[state.indexTourney - 1])
         }
     },
 
@@ -193,6 +211,9 @@ export default new Vuex.Store({
         },
         removePlayerFromTourneyList(store, id) {
             return store.commit('removePlayerFromTourneyList', id)
+        },
+        areTheGamesOverPrice(store, id) {
+           return console.log('id', id); 
         },     
 
         playGameTwoPlayers(store, {game, userId}) {
