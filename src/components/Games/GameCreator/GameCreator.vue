@@ -67,7 +67,7 @@ export default{
         createGameButtonClicked () {
             // перенес проверку из стора
             if (this.firstPlayerId  && this.secondPlayerId  && this.firstPlayerId !== this.secondPlayerId) {
-                this.createGame({ 1: this.firstPlayerId, 2: this.secondPlayerId })
+                this.createGameObject({ 1: this.firstPlayerId, 2: this.secondPlayerId })
             }
         },
         
