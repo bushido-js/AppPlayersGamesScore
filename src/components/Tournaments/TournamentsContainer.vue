@@ -8,15 +8,19 @@
 
             @sendInfoGame="sendInfoGamesTourneys"
         />
-        <hr class="mt-2 additional-games">
-        <!-- <div v-if="areTheGamesOver()">
-            <GameField 
-                :players="playersForTourney"
-            />
+        
+        <div class="observation" v-if="isOverTourney"></div>
+        <!-- <div class="row">
+            <div class="col-12">
+                <a href="#" onclick="location.reload(); return false;">
+                        <button type="submit" class="btn btn-outline-primary align-middle" :class="{disabled: isDisable}" id="restart">
+                        <h4>
+                            Обновить страницу
+                        </h4>
+                    </button>
+                </a>
+            </div>
         </div> -->
-        <div class="see">
-            <button class="button btn-primary" @click="areTheGamesOver()"></button>
-        </div>
     </div>
 </template>
 
@@ -26,50 +30,86 @@ export default{
     components: {
     TournamentCreator: () => import("./TournamentCreator/TournamentCreator.vue"),
     GameField: () => import("../Games/GameField/GameField.vue"),
-},
+    },
+    data(){
+        return{
+            isDisable: true
+        }
+    },
     computed:{
         playersForTourney(){
             return this.$store.state.playersForTourney
         },
         currentTourney(){
             return this.$store.getters.currentTourney 
-        }
-    },
-    methods: {
-        ...mapActions(['playGameTourneys']),
-        ...mapActions(['areTheGamesOverPrice']),
-        sendInfoGamesTourneys(game, userId) {
-            this.playGameTourneys({game, userId})
         },
-        areTheGamesOver(){
-            console.log('currentTourney', this.currentTourney);
+        playersForTourney(){
+            return this.$store.state.playersForTourney
+        },
+        isOverTourney(){
+            if (!this.currentTourney) {
+                return false
+            }
             let arr = []
             for (let elem of this.currentTourney){
                 arr.push(elem.isOverGame)
             }
             let arr2 = arr.filter(item => item == true)
-            if (arr == arr2){
-                console.log('Заебись');
+            if (arr.length === arr2.length){
+                this.getTheTournamentWinner()
             }
-            console.log('arr', arr);
-            console.log('arr2', arr2);
-            console.log(arr.indexOf(true));
         }
+    },
+    methods: {
+        ...mapActions(['addExtraGame', 'playGameTourneys', 'createExtraGames', 'clearListTourney']),
+        getTheTournamentWinner(){
+            const players = this.playersForTourney
+            console.log('this.playersForTourney', this.playersForTourney);
+            
+            let arr = this.listPlayersAndCountWinGames(players)
+            console.log('ARRR', arr);
+            if (arr.length >= 2){
+                return this.createExtraGames(arr);
+            }
+
+            return this.gettingTourneyWinner(arr);
+        },
+            gettingTourneyWinner(arr){
+                const winnerId = Number(arr[0])
+                let winnerObj = {};
+                this.playersForTourney.forEach(function(item){
+                    if(item.id === winnerId){
+                        winnerObj = item
+                    }
+                })
+                this.isDisable = false;
+                // this.clearListTourney()
+                alert('Победитель турнира - ' + winnerObj.name + '!')
+                return location.reload()
+            },
+            listPlayersAndCountWinGames(arr){
+                const listPlayers = {};
+                arr.forEach(function(item){
+                    const name = item.id
+                    const winGame = item.winGame
+                    listPlayers[name] = winGame
+                })
+                return this.findPlayerIdWithMaxPoint(listPlayers);
+            },
+            findPlayerIdWithMaxPoint(obj){
+                const maxValue = Math.max.apply(null, Object.values(obj))
+                return Object.keys(obj).filter(k => obj[k] === maxValue)
+            },
+        sendInfoGamesTourneys(game, userId) {
+            this.playGameTourneys({game, userId})
+        },
+        
     },
 }
 </script>
-<style>
-    .additional-games{
-        color: rgb(255, 187, 0);
-        height: 5px;
-    }
-    .see{
-        height: 200px;
+<style >
+    #restart{
+        height: 64px;
         width: 100%;
-        background-color: orange;
-    }
-    .button{
-        height: 90%;
-        width: 90%;
     }
 </style>

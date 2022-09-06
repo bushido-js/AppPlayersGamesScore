@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="col-2">
-            <button type="button" class="btn btn-primary " @click="createGameButtonClicked" :class="{disabled: isDisabled}" v-if="isOverLastGame()">Создать</button>
+            <button type="button" class="btn btn-primary " @click="createGameButtonClicked" :class="{disabled: isDisabled}" v-if="isOverLastGame">Создать</button>
         </div>
     </div>
 
@@ -30,6 +30,17 @@ export default{
         games(){
             return this.$store.state.games
         },
+        isOverLastGame(){
+            if (!this.games.length){return true}
+            let idLastGame = this.games.length - 1;
+            let objGame = this.games[idLastGame]
+            if (objGame.isOverGame){
+                this.isDisabled = false
+                return true
+            } 
+            this.isDisabled = true
+            return true  
+        }
     },
     data() {
         return {
@@ -42,31 +53,24 @@ export default{
         PlayersSelector:() => import('/src/components/Players/PlayersSelector.vue')
     },
     methods:{
-        findGameInfo(userId, array) {
-            return array.find(obj => obj.id === userId)
-        },
+        ...mapActions(['createGameObject']),
+        // findGameInfo(userId, array) {
+        //     return array.find(obj => obj.id === userId)
+        // },
         firstPlayerSelected(id) {
             this.firstPlayerId = id
         },
         secondPlayerSelected(id) {
             this.secondPlayerId = id
         },
-        ...mapActions(['createGameObject']),
+
         createGameButtonClicked () {
-            this.createGameObject({1:this.firstPlayerId, 2:this.secondPlayerId})
-        },
-        isOverLastGame(){
-            if (!this.games.length){return true}
-            let idLastGame = this.games.length - 1;
-            let objGame = this.games[idLastGame]
-            if (!objGame.isOverGame){
-                this.isDisabled = true
-                return true
-            } else {
-                this.isDisabled = false
-                return true
+            // перенес проверку из стора
+            if (this.firstPlayerId  && this.secondPlayerId  && this.firstPlayerId !== this.secondPlayerId) {
+                this.createGame({ 1: this.firstPlayerId, 2: this.secondPlayerId })
             }
-        }
+        },
+        
  
     },
 }

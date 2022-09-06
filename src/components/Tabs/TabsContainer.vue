@@ -2,8 +2,8 @@
     <div class="">
         <nav>
             <div class="nav nav-tabs mb-2" >
-                <button class="nav-link" @click="currentTab = 'createGame'" :class="[currentTab == 'createGame' ? activeClass : '']" type="button">Создать Игру</button>
-                <button class="nav-link" @click="currentTab = 'createTournament'" :class="[currentTab == 'createTournament' ? activeClass : '']" type="button">Создать Турнир</button>
+                    <button class="nav-link disable"  @click="currentTab = 'createGame'" :class="[currentTab == 'createGame' ? activeClass : '']"  type="button">Создать Игру</button>
+                    <button class="nav-link disable" @click="currentTab = 'createTournament'" :class="[currentTab == 'createTournament' ? activeClass : '']" type="button">Создать Турнир</button>
             </div>
         </nav>
         <div class="tab-content">
@@ -26,9 +26,11 @@ export default{
     },
     data() {
         return {
-            currentTab: 'createTournament',
+            currentTab: 'createGame',
             activeClass: 'active',
-            showAndActiveClass: 'fade show active'
+            showAndActiveClass: 'fade show active',
+
+            isDisabled: true
         }
     },
 }
@@ -38,4 +40,5 @@ export default{
     .nav button{
         margin-right: 5px;
     }
+
 </style>

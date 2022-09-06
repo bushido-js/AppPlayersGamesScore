@@ -96,14 +96,9 @@ function createGameObject (firstPlayer, secondPlayer) {
         rounds: [0],
         isOverGame: false
     }
-    if (newGame.firstUser  &&
-        newGame.secondUser  &&
-        newGame.firstUser !== newGame.secondUser
-        ){
         idGame = newGame.id += 1
         return newGame 
-    }
-    
+       
 }
 // // GlobalFunctions END
 
@@ -113,6 +108,7 @@ export default new Vuex.Store({
         games: [],
 
         playersForTourney: [],
+        playersForExtraGames: [],
         tourneys:[],
 
         indexPlayer: 0,
@@ -128,15 +124,10 @@ export default new Vuex.Store({
         addPlayer(state, player){
             state.players.push(player);
         },
-        createNewGame(state, obj){
-            // console.log(idGame);
-            // let param = findGameInfo(idGame, state.games)
-            if (obj !== undefined) {
-                    state.games.push(obj);
-            }
+        addGame(state, obj){
+            state.games.push(obj);
         },
         
-            // console.log(param.isOverGame);
         addPlayerForTourneyList(state, playerId){
             if (findPlayerInfo(playerId, state.playersForTourney )) return;
             state.playersForTourney.push(findPlayerInfo(playerId, state.players));
@@ -149,8 +140,6 @@ export default new Vuex.Store({
             }
         }, 
         createTourneyObjectForGames(state) {
-            const k = 2;
-
             state.indexTourney += 1;
             state.tourneys.push([]);
             
@@ -164,16 +153,39 @@ export default new Vuex.Store({
             function addGameTourney(firstPlayer, secondPlayer){
                 state.tourneys[state.indexTourney - 1].push(createGameObject(firstPlayer, secondPlayer));
             }
-
-
-            const lastGameIndex = state.tourneys.length - 1; 
-            const lastGameObj = state.tourneys[lastGameIndex];
-            const isOverGame = lastGameObj.isOverGame
+            
             console.log('tourneys',  state.tourneys);
-            console.log('lastGame',  lastGameIndex);
-            console.log('lastGameObj',  lastGameObj);
-            console.log('isOverGame',  isOverGame);
+            console.log('playersForTourney', state.playersForTourney);
+
         },
+        createExtraGames(state, payload){   
+            payload.forEach(function(item){
+                let playerId = Number(item);
+                state.playersForTourney.forEach(function(elem){
+                    if(elem.id === playerId){
+                        state.playersForExtraGames.push(elem);
+                    }
+                })
+            })
+
+            let arr = state.playersForExtraGames;
+            for (let i = 0; i < arr.length - 1; i++) {
+                for (let j = i + 1; j < arr.length; j++) {
+                    addGameTourney(arr[i].id, arr[j].id)
+                }
+            };
+
+            function addGameTourney(firstPlayer, secondPlayer){
+                state.tourneys[state.indexTourney - 1].push(createGameObject(firstPlayer, secondPlayer));
+            }
+            state.playersForExtraGames = [];
+        },
+        clearListTourney(state){
+            state.playersForTourney = []
+        },
+        // addExtraGame(state, payload){
+        //     state.tourneys[state.indexTourney - 1].push(createGameObject(payload.firstPlayer, payload.secondPlayer))
+        // },
         playGameTwoPlayers(state, payload){
             return gameLogic(payload.rounds, payload.userId, payload.game, state.players, state.games)
         },
@@ -196,12 +208,24 @@ export default new Vuex.Store({
             store.commit('addPlayer', newPlayer)
         },
         createGameObject (store, payload) { 
-            return store.commit('createNewGame', createGameObject(payload[1], payload[2])); 
+            return store.commit('addGame', createGameObject(payload[1], payload[2])); 
         },
 
         createTourneyObjectForGames(store) {
            return store.commit('createTourneyObjectForGames')
         },
+        createExtraGames(store, payload) {
+            return store.commit('createExtraGames', payload)
+        },
+        clearListTourney(store){
+            return  store.commit('clearListTourney')
+        },
+
+
+
+        // addExtraGame(store, {firstPlayer, secondPlayer}){
+        //     return store.commit('addExtraGame', {firstPlayer, secondPlayer})
+        // },
         addPlayerForTourneyList(store, id){
             return store.commit('addPlayerForTourneyList', id)
         },
