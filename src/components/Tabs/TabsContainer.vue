@@ -7,9 +7,11 @@
             </div>
         </nav>
         <div class="tab-content">
-            <div class="tab-pane" :class="[currentTab == 'createGame' ? showAndActiveClass : '']" v-if="currentTab == 'createGame'">
+            <!-- добавить в вычисляемое свойство -->
+            <div class="tab-pane"  :class="[currentTab == 'createGame' ? showAndActiveClass : '']" v-if="currentTab == 'createGame'">
                 <GamesContainer/>
             </div>
+            <!-- добавить в вычисляемое свойство -->
             <div class="tab-pane" :class="[currentTab == 'createTournament' ? showAndActiveClass : '']"  v-if="currentTab == 'createTournament'">
                 <TournamentsContainer/>
             </div>

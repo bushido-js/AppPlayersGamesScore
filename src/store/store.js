@@ -88,7 +88,9 @@ function gameLogic (rounds, userId, game, playersArr, gamesArr) {
 function findPlayerInfo(userId, array) {
     return array.find(player => player.id === userId);
 };
-function createGameObject (firstPlayer, secondPlayer) {
+
+// добавить 3 параметр id, передавать значение из стора. Убрать idGame
+function createGameObject (firstPlayer, secondPlayer, id) {
     const newGame = {
         id: idGame,
         firstUser: firstPlayer,
@@ -106,12 +108,12 @@ export default new Vuex.Store({
     state:{
         players: [],
         games: [],
+        tourneys:[],
 
         playersForTourney: [],
         playersForExtraGames: [],
-        tourneys:[],
 
-        indexPlayer: 0,
+        indexPlayer: 0, 
         indexGame: idGame,
         indexTourney: 0,
     },
@@ -130,7 +132,10 @@ export default new Vuex.Store({
         
         addPlayerForTourneyList(state, playerId){
             if (findPlayerInfo(playerId, state.playersForTourney )) return;
+            // создавать объект на остнове старого
             state.playersForTourney.push(findPlayerInfo(playerId, state.players));
+
+            state.playersForTourney[0].winGame = 10;
         },
         removePlayerFromTourneyList(state, playerId) {
             let playersForTourney = state.playersForTourney;
@@ -197,6 +202,7 @@ export default new Vuex.Store({
 
     actions:{
         createPlayer(store, value) {
+            // вынести в функцию
             let newPlayer = {
                 id: store.state.indexPlayer += 1,
                 name: value,

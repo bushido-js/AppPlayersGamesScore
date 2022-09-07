@@ -5,7 +5,8 @@
                 <PlayersInput/>
                 <div class="row">
                     <div class="col-6">
-                        <PlayersList/>
+                        <PlayersList />
+                        <!-- передавать players пропсом, поставить слушатель на клик  -->
                     </div>
                     <div class="col-6">
                         <!-- <GamePointsInfo /> -->
@@ -24,5 +25,6 @@ export default {
         PlayersInput: () => import('./PlayersInput.vue'),
         PlayersList: () => import('./PlayersList.vue')
     }, 
+    
 }
 </script>

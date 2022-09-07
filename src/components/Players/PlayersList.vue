@@ -19,12 +19,14 @@ import { mapActions } from 'vuex'
 export default{
     computed:{
         players () {
+            // добавит геттер allPlayers, заменить везде
             return this.$store.state.players
         }
     },
     methods: {
         ...mapActions(['addPlayerForTourneyList']),
         clickIdPlayer(id) {
+            // заменить на emit
             this.addPlayerForTourneyList(id)
         }
        

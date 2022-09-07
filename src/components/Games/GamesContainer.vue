@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GameCreator/>
+        <GameCreator />
         <hr>
         <GameField
             :players="players"
