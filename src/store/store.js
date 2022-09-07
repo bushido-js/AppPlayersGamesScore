@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue/dist/vue.esm.js'
+import Player from '../lib/Player';
 
 
 Vue.use(Vuex)
@@ -52,8 +53,12 @@ function gameLogic (rounds, userId, game, playersArr, gamesArr) {
         const secondPlayerCountWinRounds = takeCountWinRounds(arrPoints, secondId);
         const secondPlayerCountLossRounds = takeCountLossRounds(arrPoints, secondId);
 
-        addPointsForPlayer(firstPlayerCountWinRounds, firstPlayerCountLossRounds, firstId, playersArr);
-        addPointsForPlayer(secondPlayerCountWinRounds, secondPlayerCountLossRounds, secondId, playersArr);
+        // addPointsForPlayer(firstPlayerCountWinRounds, firstPlayerCountLossRounds, firstId, playersArr);
+        // addPointsForPlayer(secondPlayerCountWinRounds, secondPlayerCountLossRounds, secondId, playersArr);
+        const firstPlayer = findPlayerInfo(firstId, playersArr);
+        firstPlayer.addPoints(firstPlayerCountWinRounds, firstPlayerCountLossRounds);
+        const secondPlayer = findPlayerInfo(secondId, playersArr);
+        secondPlayer.addPoints(secondPlayerCountWinRounds, secondPlayerCountLossRounds);
         game.isOverGame = true
     };
     function addPointsForPlayer(countRoundWon, countRoundLoss, userId, playersArr) {
@@ -202,16 +207,9 @@ export default new Vuex.Store({
 
     actions:{
         createPlayer(store, value) {
-            // вынести в функцию
-            let newPlayer = {
-                id: store.state.indexPlayer += 1,
-                name: value,
-                winRound: 0,
-                lossRound: 0, 
-                winGame: 0 
-            }
-
-            store.commit('addPlayer', newPlayer)
+            const player = new Player(value);
+            console.log(player.getString());
+            store.commit('addPlayer', player)
         },
         createGameObject (store, payload) { 
             return store.commit('addGame', createGameObject(payload[1], payload[2])); 
