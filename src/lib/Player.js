@@ -1,6 +1,6 @@
 export default class Player {
 
-    static indexPlayer = 0;
+    static indexPlayer = 1;
 
     #id = null;
     #name = null;
@@ -8,6 +8,13 @@ export default class Player {
     #lossRound = 0;
     #winGame = 0;
 
+    
+    constructor(name) {
+        this.#id = Player.indexPlayer;
+        Player.indexPlayer++;
+        this.#name = name;
+    }
+    
     get id() {
         return this.#id;
     }
@@ -27,13 +34,7 @@ export default class Player {
     get winGame() {
         return this.#winGame;
     }
-
-    constructor(name) {
-        this.#id = Player.indexPlayer;
-        Player.indexPlayer++;
-        this.#name = name;
-    }
-
+    
     addPoints(wonRounds, lossRounds) {
         this.#lossRound += lossRounds;
         this.#winRound += wonRounds;

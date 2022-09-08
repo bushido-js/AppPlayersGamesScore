@@ -8,7 +8,7 @@
                         
                         <div class="col-9 name-first-player">
                             <div v-for="firstMember of players">
-                                <div v-if="firstMember.id == game.firstUser">
+                                <div v-if="firstMember.id == game.firstUserObj.id">
                                     <strong>{{firstMember.name}}</strong>
                                     <span class="badge bg-primary rounded-pill">{{firstMember.winRound}}</span>
                                     /
@@ -20,7 +20,11 @@
                         </div>
 
                         <div class="col-3 points first-player">
-                            <div  v-for="point of game.rounds.slice().reverse()" @click="sendInfoGame(game, game.firstUser)" :value="game.rounds" :class="checkBoxStyle(point, game.firstUser)"></div>
+                            <div  
+                                v-for="point of game.rounds.slice().reverse()"
+                                @click="game.firstUserWon()"
+                                :value="game.rounds" :class="checkBoxStyle(point, game.firstUserObj.id)"
+                            ></div>
                         </div>
 
                     </div>
@@ -34,12 +38,16 @@
                     <div class="row" >
 
                         <div class="col-3 points second-player">
-                            <div v-for="point of game.rounds" @click="sendInfoGame(game, game.secondUser)" :value="game.rounds" :class="checkBoxStyle(point, game.secondUser)"></div>
+                            <div 
+                                v-for="point of game.rounds"
+                                @click="game.secondUserWon()"
+                                :value="game.rounds" :class="checkBoxStyle(point, game.secondUserObj.id)"
+                            ></div>
                         </div>
 
                         <div class="col-9 name-second-player">
                             <div v-for="secondMember of players">
-                                <div v-if="secondMember.id == game.secondUser">
+                                <div v-if="secondMember.id == game.secondUserObj.id">
                                     <strong>{{secondMember.name}}</strong>
                                     <span class="badge bg-primary rounded-pill">{{secondMember.winRound}}</span>
                                     /
@@ -64,9 +72,10 @@ export default{
         'games': Array,     
     },
     methods: {
-        sendInfoGame(game, userId){
-            this.$emit('sendInfoGame', game, userId);
-        },
+        // sendInfoGame(game, userId){
+        //     this.$emit('sendInfoGame', game, userId);
+        //     console.log('games', this.games);
+        // },
         checkBoxStyle(point, num) {
             if(point === 0){
                 return 'nothing'

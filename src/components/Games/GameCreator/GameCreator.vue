@@ -34,18 +34,19 @@ export default{
             if (!this.games.length){return true}
             let idLastGame = this.games.length - 1;
             let objGame = this.games[idLastGame]
+            console.log('objGame', objGame.isOverGame);
             if (objGame.isOverGame){
                 this.isDisabled = false
                 return true
-            } 
+            }
             this.isDisabled = true
             return true  
         }
     },
     data() {
         return {
-            firstPlayerId: null,
-            secondPlayerId: null,
+            firstPlayerObj: null,
+            secondPlayerObj: null,
             isDisabled: false
         }
     },
@@ -53,21 +54,17 @@ export default{
         PlayersSelector:() => import('/src/components/Players/PlayersSelector.vue')
     },
     methods:{
-        ...mapActions(['createGameObject']),
-        // findGameInfo(userId, array) {
-        //     return array.find(obj => obj.id === userId)
-        // },
-        firstPlayerSelected(id) {
-            this.firstPlayerId = id
+        ...mapActions(['createGame']),
+        firstPlayerSelected(obj) {
+            this.firstPlayerObj = obj
         },
-        secondPlayerSelected(id) {
-            this.secondPlayerId = id
+        secondPlayerSelected(obj) {
+            this.secondPlayerObj = obj
         },
 
         createGameButtonClicked () {
-            // перенес проверку из стора
-            if (this.firstPlayerId  && this.secondPlayerId  && this.firstPlayerId !== this.secondPlayerId) {
-                this.createGameObject({ 1: this.firstPlayerId, 2: this.secondPlayerId })
+            if (this.firstPlayerObj.id  && this.secondPlayerObj.id  && this.firstPlayerObj.id !== this.secondPlayerObj.id) {
+                this.createGame({ 1: this.firstPlayerObj, 2: this.secondPlayerObj })
             }
         },
         

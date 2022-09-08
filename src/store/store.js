@@ -1,6 +1,7 @@
-import Vuex from 'vuex'
-import Vue from 'vue/dist/vue.esm.js'
+import Vuex from 'vuex';
+import Vue from 'vue/dist/vue.esm.js';
 import Player from '../lib/Player';
+import Game from '../lib/Game';
 
 
 Vue.use(Vuex)
@@ -9,49 +10,49 @@ Vue.use(Vuex)
 // // GlobalFunctions START
 
 // Переменная для id всех игр, чтобы каждая игра и обычная, и турнирная имела свой уникальный ID
-let idGame = 0;
+
 // 
 
 function gameLogic (rounds, userId, game, playersArr, gamesArr) {
-    thirdRound (rounds, userId, game, playersArr, gamesArr);
-    secondRound (rounds, userId, game, playersArr, gamesArr);
-    firstRound (rounds, userId);  
-    function firstRound (rounds, num) {
-        if (rounds[0] === 0){ 
-            rounds.push(0);
-            Vue.set(rounds, 0, num);
-        }
-    };
-    function secondRound (rounds, num, game, playersArr, gamesArr){
-        if (rounds[1] === 0){
-            Vue.set(rounds, 1, num);
-            if (rounds[0] === rounds[1]){
-                addPoints(game, playersArr, gamesArr);
-            } else {
-                rounds.push(0);
-            }
-        }
-    };
-    function thirdRound (rounds, num, game, playersArr, gamesArr){
-        if (rounds[2] === 0){
-            Vue.set(rounds, 2, num);
-            if (rounds[0] === rounds[2]){
-                addPoints(game, playersArr, gamesArr);
-            }
-            if (rounds[1] === rounds[2]){
-                addPoints(game, playersArr, gamesArr);
-            }
-        }
-    };
+    // thirdRound (rounds, userId, game, playersArr, gamesArr);
+    // secondRound (rounds, userId, game, playersArr, gamesArr);
+    // firstRound (rounds, userId);  
+    // function firstRound (rounds, num) {
+    //     if (rounds[0] === 0){ 
+    //         rounds.push(0);
+    //         Vue.set(rounds, 0, num);
+    //     }
+    // };
+    // function secondRound (rounds, num, game, playersArr, gamesArr){
+    //     if (rounds[1] === 0){
+    //         Vue.set(rounds, 1, num);
+    //         if (rounds[0] === rounds[1]){
+    //             addPoints(game, playersArr, gamesArr);
+    //         } else {
+    //             rounds.push(0);
+    //         }
+    //     }
+    // };
+    // function thirdRound (rounds, num, game, playersArr, gamesArr){
+    //     if (rounds[2] === 0){
+    //         Vue.set(rounds, 2, num);
+    //         if (rounds[0] === rounds[2]){
+    //             addPoints(game, playersArr, gamesArr);
+    //         }
+    //         if (rounds[1] === rounds[2]){
+    //             addPoints(game, playersArr, gamesArr);
+    //         }
+    //     }
+    // };
     function addPoints(game, playersArr, gamesArr){
         const firstId = game.firstUser;
         const secondId = game.secondUser;
         const arrPoints = getArrRoundPoints(game.id, gamesArr);
 
-        const firstPlayerCountWinRounds = takeCountWinRounds(arrPoints, firstId);
-        const firstPlayerCountLossRounds = takeCountLossRounds(arrPoints, firstId);
-        const secondPlayerCountWinRounds = takeCountWinRounds(arrPoints, secondId);
-        const secondPlayerCountLossRounds = takeCountLossRounds(arrPoints, secondId);
+        // const firstPlayerCountWinRounds = takeCountWinRounds(arrPoints, firstId);
+        // const firstPlayerCountLossRounds = takeCountLossRounds(arrPoints, firstId);
+        // const secondPlayerCountWinRounds = takeCountWinRounds(arrPoints, secondId);
+        // const secondPlayerCountLossRounds = takeCountLossRounds(arrPoints, secondId);
 
         // addPointsForPlayer(firstPlayerCountWinRounds, firstPlayerCountLossRounds, firstId, playersArr);
         // addPointsForPlayer(secondPlayerCountWinRounds, secondPlayerCountLossRounds, secondId, playersArr);
@@ -59,7 +60,8 @@ function gameLogic (rounds, userId, game, playersArr, gamesArr) {
         firstPlayer.addPoints(firstPlayerCountWinRounds, firstPlayerCountLossRounds);
         const secondPlayer = findPlayerInfo(secondId, playersArr);
         secondPlayer.addPoints(secondPlayerCountWinRounds, secondPlayerCountLossRounds);
-        game.isOverGame = true
+        game.endGame()
+        console.log('game.isOverGame', game.isOverGame);
     };
     function addPointsForPlayer(countRoundWon, countRoundLoss, userId, playersArr) {
         const playerInfo = findPlayerInfo(userId, playersArr);
@@ -95,18 +97,6 @@ function findPlayerInfo(userId, array) {
 };
 
 // добавить 3 параметр id, передавать значение из стора. Убрать idGame
-function createGameObject (firstPlayer, secondPlayer, id) {
-    const newGame = {
-        id: idGame,
-        firstUser: firstPlayer,
-        secondUser: secondPlayer,
-        rounds: [0],
-        isOverGame: false
-    }
-        idGame = newGame.id += 1
-        return newGame 
-       
-}
 // // GlobalFunctions END
 
 export default new Vuex.Store({
@@ -118,8 +108,6 @@ export default new Vuex.Store({
         playersForTourney: [],
         playersForExtraGames: [],
 
-        indexPlayer: 0, 
-        indexGame: idGame,
         indexTourney: 0,
     },
     getters:{
@@ -132,7 +120,11 @@ export default new Vuex.Store({
             state.players.push(player);
         },
         addGame(state, obj){
-            state.games.push(obj);
+            // state.games.push(obj);
+            console.log('games', state.games);
+            state.games.splice(state.games.length, 0, obj)
+            
+            // Vue.set(state.games, 1, obj)
         },
         
         addPlayerForTourneyList(state, playerId){
@@ -196,9 +188,9 @@ export default new Vuex.Store({
         // addExtraGame(state, payload){
         //     state.tourneys[state.indexTourney - 1].push(createGameObject(payload.firstPlayer, payload.secondPlayer))
         // },
-        playGameTwoPlayers(state, payload){
-            return gameLogic(payload.rounds, payload.userId, payload.game, state.players, state.games)
-        },
+        // playGameTwoPlayers(state, payload){
+        //     return gameLogic(payload.rounds, payload.userId, payload.game, state.players, state.games)
+        // },
         playGameTourneys(state, payload){
             return gameLogic(payload.rounds, payload.userId, payload.game, state.playersForTourney, state.tourneys[state.indexTourney - 1])
         }
@@ -207,12 +199,10 @@ export default new Vuex.Store({
 
     actions:{
         createPlayer(store, value) {
-            const player = new Player(value);
-            console.log(player.getString());
-            store.commit('addPlayer', player)
+            return store.commit('addPlayer', new Player(value))
         },
-        createGameObject (store, payload) { 
-            return store.commit('addGame', createGameObject(payload[1], payload[2])); 
+        createGame (store, payload) { 
+            return store.commit('addGame', new Game(payload[1], payload[2])); 
         },
 
         createTourneyObjectForGames(store) {
@@ -242,10 +232,11 @@ export default new Vuex.Store({
 
         playGameTwoPlayers(store, {game, userId}) {
             let rounds = game.rounds;
+            console.log('rounds', rounds);
             return store.commit('playGameTwoPlayers', {rounds, userId, game});  
         },
         playGameTourneys(store, {game, userId}) {
-            let rounds = game.rounds;
+            let rounds = game.rounds;    
             return store.commit('playGameTourneys', {rounds, userId, game});
         },
     }

@@ -8,4 +8,11 @@ new Vue({
     render: h => h(App)
 }).$mount("#app")
 
+var myFish = ['angel', 'clown', 'drum', 'mandarin', 'sturgeon'];
+var removed = myFish.splice(3, 1);
+
+let length = myFish.length
+myFish.splice(myFish.length, 0, {name:'Hello'})
+console.log('myFish', myFish);
+console.log('length', length);
 
