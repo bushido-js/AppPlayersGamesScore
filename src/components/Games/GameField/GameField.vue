@@ -72,10 +72,6 @@ export default{
         'games': Array,     
     },
     methods: {
-        // sendInfoGame(game, userId){
-        //     this.$emit('sendInfoGame', game, userId);
-        //     console.log('games', this.games);
-        // },
         checkBoxStyle(point, num) {
             if(point === 0){
                 return 'nothing'
@@ -89,7 +85,6 @@ export default{
         }
     },
 }
-
 </script>
 
 <style scoped>

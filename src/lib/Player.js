@@ -4,9 +4,9 @@ export default class Player {
 
     #id = null;
     #name = null;
-    #winRound = 0;
-    #lossRound = 0;
-    #winGame = 0;
+    winRound = 0;
+    lossRound = 0;
+    winGame = 0;
 
     
     constructor(name) {
@@ -23,22 +23,10 @@ export default class Player {
         return this.#name;
     }
     
-    get winRound() {
-        return this.#winRound;
-    }
-    
-    get lossRound() {
-        return this.#lossRound;
-    }
-    
-    get winGame() {
-        return this.#winGame;
-    }
-    
     addPoints(wonRounds, lossRounds) {
-        this.#lossRound += lossRounds;
-        this.#winRound += wonRounds;
-        this.#winGame += wonRounds >= 2 ? 1 : 0;
+        this.lossRound += lossRounds;
+        this.winRound += wonRounds;
+        this.winGame += wonRounds >= 2 ? 1 : 0;
     }
 
     getString() {

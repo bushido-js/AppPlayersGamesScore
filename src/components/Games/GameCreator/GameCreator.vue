@@ -33,9 +33,7 @@ export default{
         isOverLastGame(){
             if (!this.games.length){return true}
             let idLastGame = this.games.length - 1;
-            let objGame = this.games[idLastGame]
-            console.log('objGame', objGame.isOverGame);
-            if (objGame.isOverGame){
+            if (this.games[idLastGame].isOverGame){
                 this.isDisabled = false
                 return true
             }

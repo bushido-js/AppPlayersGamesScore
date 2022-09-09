@@ -4,7 +4,10 @@
             <div class="row">
                 <div>
                     <h5 class="">Выберете игроков для Турнира</h5>
-                    <PlayersList/>
+                    <PlayersList
+                        :players="players"
+                        @sendPlayerId="sendPlayerId"
+                    />
                 </div>
             </div>
         </div>
@@ -36,6 +39,9 @@
 import { mapActions } from 'vuex';
 export default{ 
     computed:{
+        players(){
+            return this.$store.getters.allPlayers
+        },
         playersForTourney(){
             return this.$store.state.playersForTourney;
         }
@@ -49,8 +55,7 @@ export default{
         PlayersList: () => import("/src/components/Players/PlayersList.vue"),
     },
     methods:{
-        ...mapActions(['removePlayerFromTourneyList']),
-        ...mapActions(['createTourneyObjectForGames']),
+        ...mapActions(['removePlayerFromTourneyList', 'createTourneyObjectForGames', 'addPlayerForTourneyList']),
         removePlayer(id) {
             this.removePlayerFromTourneyList(id)
         },
@@ -58,6 +63,9 @@ export default{
             this.createTourneyObjectForGames();
             this.isHide = true;
         },
+        sendPlayerId(id){
+            this.addPlayerForTourneyList(id)
+        }
     }
 }
 </script>

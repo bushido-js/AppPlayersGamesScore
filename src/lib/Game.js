@@ -9,21 +9,13 @@ export default class Game {
     #firstUserObj = null;
     #secondUserObj = null;
     rounds = [0];
-    #isOverGame = false;
+    isOverGame = false;
     
     constructor(firstPlayer, secondPlayer){
         this.#id = Game.indexGame;
         Game.indexGame++
         this.#firstUserObj = firstPlayer;
         this.#secondUserObj = secondPlayer;     
-    }
-
-    get rounds(){
-        return this.rounds
-    }
-
-    get isOverGame(){
-        return this.#isOverGame
     }
 
     get firstUserObj(){
@@ -38,8 +30,8 @@ export default class Game {
         return this.#id
     }
 
-    endGame(){
-        this.#isOverGame = true;
+    #endGame(){
+        this.isOverGame = true;
     }
 
     firstUserWon() {
@@ -48,47 +40,51 @@ export default class Game {
 
     secondUserWon() {
         this.#userWon(this.#secondUserObj.id);
-        console.log('roundsSUW', this.rounds);
     }
 
     #userWon(userId) {
-        const rounds = this.rounds;
+    const rounds = this.rounds;
   
-        if (rounds[2] === 0){
-            Vue.set(rounds, 2, userId);
-            if (rounds[0] === rounds[2]){
-                this.endGame();
-            }
-            if (rounds[1] === rounds[2]){
-                this.endGame();
-            }
+    if (rounds[2] === 0){
+        Vue.set(rounds, 2, userId);
+        if (rounds[0] === rounds[2]){
+            this.#sendScore()
         }
-        if (rounds[1] === 0){
-            Vue.set(rounds, 1, userId);
-            if (rounds[0] === rounds[1]){
-                this.endGame();
-            } else {
-                rounds.push(0);
-            }
-        }
-        if (rounds[0] === 0){ 
-            rounds.push(0);
-            Vue.set(rounds, 0, userId);
+        if (rounds[1] === rounds[2]){
+            this.#sendScore()
         }
     }
-    #calculateScore(userId) {
+    if (rounds[1] === 0){
+        Vue.set(rounds, 1, userId);
+        if (rounds[0] === rounds[1]){
+            this.#sendScore()
+        } else {
+            rounds.push(0);
+        }
+    }
+    if (rounds[0] === 0){ 
+        rounds.push(0);
+        Vue.set(rounds, 0, userId);
+    }
+        
+    }
+    #sendScore(){
+        this.#firstUserObj.addPoints(this.#calculateScoreWin(this.#firstUserObj.id), this.#calculateScoreLoss(this.#firstUserObj.id))
+        this.#secondUserObj.addPoints(this.#calculateScoreWin(this.#secondUserObj.id), this.#calculateScoreLoss(this.#secondUserObj.id))
+        this.#endGame()
+    }
+    #calculateScoreWin(userId) {
         return this.rounds.reduce((wonRounds, item) => 
         wonRounds += userId === item 
             ? 1 
             : 0 
         , 0);
     }
-
-    isGameOver(){
-        return this.#isOverGame
-    }
-
-    checkClass(){
-        return console.log('JOPA');
+    #calculateScoreLoss(userId){
+        return this.rounds.reduce((lossRounds, item) =>
+        lossRounds += userId !== item
+            ? 1
+            : 0
+        , 0)
     }
 }

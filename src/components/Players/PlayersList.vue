@@ -15,19 +15,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 export default{
-    computed:{
-        players () {
-            // добавит геттер allPlayers, заменить везде
-            return this.$store.state.players
-        }
+    props:{
+        players: Array,
     },
     methods: {
-        ...mapActions(['addPlayerForTourneyList']),
+
         clickIdPlayer(id) {
-            // заменить на emit
-            this.addPlayerForTourneyList(id)
+            this.$emit('sendPlayerId', id)
         }
        
     },
