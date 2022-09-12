@@ -55,13 +55,13 @@ export default{
         PlayersList: () => import("/src/components/Players/PlayersList.vue"),
     },
     methods:{
-        ...mapActions(['removePlayerFromTourneyList', 'createTourneyObjectForGames', 'addPlayerForTourneyList']),
+        ...mapActions(['createTourney', 'removePlayerFromTourneyList', 'addPlayerForTourneyList']),
+        createTourneyButtonClicked() {
+            this.createTourney();
+            this.isHide = true;
+        },
         removePlayer(id) {
             this.removePlayerFromTourneyList(id)
-        },
-        createTourneyButtonClicked() {
-            this.createTourneyObjectForGames();
-            this.isHide = true;
         },
         sendPlayerId(id){
             this.addPlayerForTourneyList(id)

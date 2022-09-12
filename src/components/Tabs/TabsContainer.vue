@@ -28,7 +28,7 @@ export default{
     },
     data() {
         return {
-            currentTab: 'createGame',
+            currentTab: 'createTournament',
             activeClass: 'active',
             showAndActiveClass: 'fade show active',
 
