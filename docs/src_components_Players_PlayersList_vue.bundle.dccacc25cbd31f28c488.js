@@ -15,7 +15,7 @@
   \*****************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  data: function data() {\n    return {\n      addPlayerForTourneyList: null\n    };\n  },\n  props: {\n    'players': Array\n  },\n  methods: {\n    clickIdPlayer: function clickIdPlayer(id) {\n      this.$emit('addPlayerForTourneyList', id);\n    }\n  }\n});\n\n//# sourceURL=webpack://pingpong/./src/components/Players/PlayersList.vue?./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  props: {\n    players: Array\n  },\n  methods: {\n    clickIdPlayer: function clickIdPlayer(id) {\n      this.$emit('sendPlayerId', id);\n    }\n  }\n});\n\n//# sourceURL=webpack://pingpong/./src/components/Players/PlayersList.vue?./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options");
 
 /***/ }),
 
