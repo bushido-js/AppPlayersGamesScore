@@ -17,33 +17,56 @@
             </div>
         </div>
         <div class="col-2">
-            <button type="button" class="btn btn-primary" @click="createGameButtonClicked">Создать</button>
+            <button type="button" class="btn btn-primary " @click="createGameButtonClicked" :class="{disabled: isDisabled}" v-if="isOverLastGame">Создать</button>
         </div>
     </div>
 
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default{
+    computed:{
+        games(){
+            return this.$store.state.games
+        },
+        isOverLastGame(){
+            if (!this.games.length){return true}
+            let idLastGame = this.games.length - 1;
+            if (this.games[idLastGame].isOverGame){
+                this.isDisabled = false
+                return true
+            }
+            this.isDisabled = true
+            return true  
+        }
+    },
     data() {
         return {
-            firstPlayerId: null,
-            secondPlayerId: null,
+            firstPlayerObj: null,
+            secondPlayerObj: null,
+            isDisabled: false
         }
     },
     components:{
         PlayersSelector:() => import('/src/components/Players/PlayersSelector.vue')
     },
     methods:{
-        firstPlayerSelected(id) {
-            this.firstPlayerId = id
+        ...mapActions(['createGame']),
+        firstPlayerSelected(obj) {
+            this.firstPlayerObj = obj
         },
-        secondPlayerSelected(id) {
-            this.secondPlayerId = id
+        secondPlayerSelected(obj) {
+            this.secondPlayerObj = obj
         },
+
         createGameButtonClicked () {
-            this.$emit('createGameButtonClicked', this.firstPlayerId, this.secondPlayerId)
-        },  
+            if (this.firstPlayerObj.id  && this.secondPlayerObj.id  && this.firstPlayerObj.id !== this.secondPlayerObj.id) {
+                this.createGame({ 1: this.firstPlayerObj, 2: this.secondPlayerObj })
+            }
+        },
+        
+ 
     },
 }
 

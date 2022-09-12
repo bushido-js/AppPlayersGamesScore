@@ -15,23 +15,20 @@
 </template>
 
 <script>
-
 export default{
-    computed:{
-        players () {
-            return this.$store.state.players
-        }
-    },
-    data() {
-        return{
-            addPlayerForTourneyList: null
-        }
+    props:{
+        players: Array,
     },
     methods: {
+
         clickIdPlayer(id) {
-            this.$emit('addPlayerForTourneyList', id)
+            this.$emit('sendPlayerId', id)
         }
+       
     },
 }
 
 </script>
+<style>
+    
+</style>

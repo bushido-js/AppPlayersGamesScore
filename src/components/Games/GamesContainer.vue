@@ -1,13 +1,10 @@
 <template>
     <div>
-        <GameCreator
-            @createGameButtonClicked="createGameButtonClicked"
-        />
+        <GameCreator />
         <hr>
         <GameField
             :players="players"
             :games="games"
-            @sendInfoGame="sendInfoGameTwoPlayers"
         />
     </div>
 
@@ -15,26 +12,22 @@
 
 <script>
 export default {
-    computed:{
-        players () {
-            return this.$store.state.players
+    data(){
+        return{
+            currentGameObject: null,
         }
     },
     components:{
         GameCreator: () => import('./GameCreator/GameCreator.vue'),
         GameField: () => import('./GameField/GameField.vue')
     },
-    props: {
-        'games': Array
-    },
-    methods: {
-        sendInfoGameTwoPlayers(game, userId) {
-            this.$emit('sendInfoGameTwoPlayers', game, userId)
+    computed:{
+        players () {
+            return this.$store.state.players
         },
-        createGameButtonClicked (value1, value2) {
-            this.$emit('createGameButtonClicked', value1, value2)
-        },
-
+        games() {
+            return this.$store.state.games
+        }
     },
 
 }

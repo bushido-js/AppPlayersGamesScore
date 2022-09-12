@@ -1,11 +1,12 @@
 <template>
-    <div class="row">
+    <div class="row " :class="{hide: isHide}">
         <div class="col-sm-5">
             <div class="row">
                 <div>
                     <h5 class="">Выберете игроков для Турнира</h5>
                     <PlayersList
-                        @addPlayerForTourneyList="addPlayerForTourneyList"
+                        :players="players"
+                        @sendPlayerId="sendPlayerId"
                     />
                 </div>
             </div>
@@ -35,30 +36,38 @@
 </template>
 
 <script>
-    export default{ 
-        components:{
-            PlayersList: () => import("/src/components/Players/PlayersList.vue"),
+import { mapActions } from 'vuex';
+export default{ 
+    computed:{
+        players(){
+            return this.$store.getters.allPlayers
         },
-        data() {
-            return {
-                removePlayerId: null,
-            }
+        playersForTourney(){
+            return this.$store.state.playersForTourney;
+        }
+    },
+    data() {
+        return {
+            isHide: false,
+        }
+    },
+    components:{
+        PlayersList: () => import("/src/components/Players/PlayersList.vue"),
+    },
+    methods:{
+        ...mapActions(['createTourney', 'removePlayerFromTourneyList', 'addPlayerForTourneyList']),
+        createTourneyButtonClicked() {
+            this.createTourney();
+            this.isHide = true;
         },
-        props: {
-            'playersForTourney': Array,
+        removePlayer(id) {
+            this.removePlayerFromTourneyList(id)
         },
-        methods:{
-            addPlayerForTourneyList (id) {
-                this.$emit('addPlayerForTourneyList', id)
-            },
-            removePlayer(id) {
-                this.$emit('removePlayerFromTourneyList', id)
-            },
-            createTourneyButtonClicked() {
-                this.$emit('createTourneyButtonClicked')
-            },
+        sendPlayerId(id){
+            this.addPlayerForTourneyList(id)
         }
     }
+}
 </script>
 <style scoped>
     .div-button {
@@ -66,5 +75,8 @@
     }
     .div-button button{
         width: 100%;
+    }
+    .hide{
+        display:none;
     }
 </style>

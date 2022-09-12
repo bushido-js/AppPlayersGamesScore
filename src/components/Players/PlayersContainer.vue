@@ -2,14 +2,15 @@
     <div> 
         <div class="row">
             <div class="">
-                <PlayersInput
-                    @sendEvent="sendValue"
-                />
+                <PlayersInput/>
                 <div class="row">
                     <div class="col-6">
-                        <PlayersList/>
+                        <PlayersList 
+                            :players="players"
+                        />
+                        <!-- передавать players пропсом, поставить слушатель на клик  -->
                     </div>
-                    <div class="">
+                    <div class="col-6">
                         <!-- <GamePointsInfo /> -->
                     </div>
                 </div>
@@ -21,15 +22,19 @@
 <script>
 
 export default {
+    computed:{
+        players(){
+            return this.$store.getters.allPlayers
+        }
+    },
     components: {
         GamePointsInfo: () => import('./GamePointsInfo.vue'),
         PlayersInput: () => import('./PlayersInput.vue'),
         PlayersList: () => import('./PlayersList.vue')
-    }, 
-    methods: {
-        sendValue (value) {
-            this.$emit('addNewPlayer', value);  
-        }
-    }
+    },
+    methods:{
+
+    } 
+    
 }
 </script>

@@ -2,31 +2,18 @@
     <div class="">
         <nav>
             <div class="nav nav-tabs mb-2" >
-                <button class="nav-link" @click="currentTab = 'createGame'" :class="[currentTab == 'createGame' ? activeClass : '']" type="button">Создать Игру</button>
-                <button class="nav-link" @click="currentTab = 'createTournament'" :class="[currentTab == 'createTournament' ? activeClass : '']" type="button">Создать Турнир</button>
+                    <button class="nav-link disable"  @click="currentTab = 'createGame'" :class="[currentTab == 'createGame' ? activeClass : '']"  type="button">Создать Игру</button>
+                    <button class="nav-link disable" @click="currentTab = 'createTournament'" :class="[currentTab == 'createTournament' ? activeClass : '']" type="button">Создать Турнир</button>
             </div>
         </nav>
         <div class="tab-content">
-            <div class="tab-pane" :class="[currentTab == 'createGame' ? showAndActiveClass : '']" v-if="currentTab == 'createGame'">
-                <GamesContainer
-                    :games="games"
-
-                    @createGameButtonClicked="createGameButtonClicked"
-                    @sendInfoGameTwoPlayers="sendInfoGameTwoPlayers"
-                />
+            <!-- добавить в вычисляемое свойство -->
+            <div class="tab-pane"  :class="[currentTab == 'createGame' ? showAndActiveClass : '']" v-if="currentTab == 'createGame'">
+                <GamesContainer/>
             </div>
+            <!-- добавить в вычисляемое свойство -->
             <div class="tab-pane" :class="[currentTab == 'createTournament' ? showAndActiveClass : '']"  v-if="currentTab == 'createTournament'">
-                <TournamentsContainer
-                    :players="players"
-                    :playersForTourney="playersForTourney"
-                    :tourneys="tourneys"
-
-                    @addPlayerForTourneyList="addPlayerForTourneyList"
-                    @removePlayerFromTourneyList="removePlayerFromTourneyList"
-
-                    @createTourneyButtonClicked="createTourneyButtonClicked"
-                    @sendInfoGamesTourneys="sendInfoGamesTourneys"
-                />
+                <TournamentsContainer/>
             </div>
         </div>
     </div>
@@ -35,47 +22,19 @@
 
 <script>
 export default{
-    computed:{
-        players () {
-            return this.$store.state.players
-        }
-    },
     components: {
         TournamentsContainer: () => import('../Tournaments/TournamentsContainer.vue'),
         GamesContainer: () => import('../Games/GamesContainer.vue')
     },
-    props:{
-        'games': Array,
-        'playersForTourney': Array,
-        'tourneys': Array
-    },
     data() {
         return {
-            currentTab: 'createGame',
+            currentTab: 'createTournament',
             activeClass: 'active',
-            showAndActiveClass: 'fade show active'
+            showAndActiveClass: 'fade show active',
+
+            isDisabled: true
         }
     },
-    methods: {
-        sendInfoGameTwoPlayers(game, userId) {
-            this.$emit('sendInfoGameTwoPlayers', game, userId)
-        },
-        sendInfoGamesTourneys (game, userId) {
-            this.$emit('sendInfoGamesTourneys', game, userId)
-        },
-        createGameButtonClicked(value1, value2) {
-            this.$emit('createGameButtonClicked', value1, value2)
-        },
-        addPlayerForTourneyList(id) {
-            this.$emit('addPlayerForTourneyList', id)
-        },
-        removePlayerFromTourneyList (id) {
-            this.$emit('removePlayerFromTourneyList', id)
-        },
-        createTourneyButtonClicked() {
-            this.$emit('createTourneyButtonClicked')
-        },
-    }
 }
 
 </script>
@@ -83,4 +42,5 @@ export default{
     .nav button{
         margin-right: 5px;
     }
+
 </style>
