@@ -7,6 +7,8 @@ export default class Player {
     winRound = 0;
     lossRound = 0;
     winGame = 0;
+    winGameTourney = 0;
+    // isOverTourney = false;
 
     
     constructor(name) {
@@ -23,10 +25,21 @@ export default class Player {
         return this.#name;
     }
     
-    addPoints(wonRounds, lossRounds) {
-        this.lossRound += lossRounds;
-        this.winRound += wonRounds;
-        this.winGame += wonRounds >= 2 ? 1 : 0;
+    addPoints(wonRounds, lossRounds, flag) {
+        if(flag === 'flag'){
+            this.lossRound += lossRounds;
+            this.winRound += wonRounds;
+            this.winGame += wonRounds >= 2 ? 1 : 0;
+            this.winGameTourney += wonRounds >= 2 ? 1 : 0;
+            // if(this.isOverTourney){
+            //     this.winGameTourney = 0
+            // }
+            
+        } else {
+            this.lossRound += lossRounds;
+            this.winRound += wonRounds;
+            this.winGame += wonRounds >= 2 ? 1 : 0;
+        }
     }
 
     getString() {

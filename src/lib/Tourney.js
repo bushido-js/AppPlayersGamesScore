@@ -1,4 +1,5 @@
 import Game from "./Game";
+import Player from "./Player";
 
 export default class Tourney{
 
@@ -7,6 +8,8 @@ export default class Tourney{
     id = null;
     tourneyGames = [];
     players = null;
+    #flag = 'flag';
+    #isOverTourney = false;
     constructor(playersForTourney){
         this.id = Tourney.indexTourney;
         Tourney.indexTourney++;
@@ -14,12 +17,12 @@ export default class Tourney{
     }
 
     tourneyGamesOn(){
-        let arr = this.players
+        let arr = this.players;
         for (let i = 0; i < arr.length - 1; i++) {
             for (let j = i + 1; j < arr.length; j++) {
-                this.addGameTourney(arr[i], arr[j])
+                this.addGameTourney(arr[i], arr[j]);
             }
-        };
+        }
     }
 
     getWinner(){
@@ -41,14 +44,15 @@ export default class Tourney{
             })
             players = [];
             alert('Победитель турнира - ' + winnerObj.name + '!');
-            return location.reload();
+            this.#isOverTourney = true;
+            // return location.reload();
         }
 
         listPlayersAndCountWinGames(arr){
             const listPlayers = {};
             arr.forEach(function(item){
                 const name = item.id;
-                const winGame = item.winGame;
+                const winGame = item.winGameTourney;
                 listPlayers[name] = winGame;
             })
             return this.findPlayerIdWithMaxPoint(listPlayers);
@@ -70,8 +74,7 @@ export default class Tourney{
                 }
             })
         })
-        console.log('testFLAG');
-
+        
         let extraArr = playersForExtraGames
         for (let i = 0; i < extraArr.length - 1; i++) {
             for (let j = i + 1; j < extraArr.length; j++) {
@@ -82,7 +85,7 @@ export default class Tourney{
     }
 
         addGameTourney(firstPlayer, secondPlayer) {
-            this.tourneyGames.push(new Game(firstPlayer, secondPlayer));
+            this.tourneyGames.push(new Game(firstPlayer, secondPlayer, this.#flag));
         }
     
 }

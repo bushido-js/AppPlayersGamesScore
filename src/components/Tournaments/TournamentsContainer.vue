@@ -8,17 +8,17 @@
         />
         
         <div class="observation" v-if="isOverTourney"></div>
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-12">
                 <a href="#" onclick="location.reload(); return false;">
-                        <button type="submit" class="btn btn-outline-primary align-middle" id="restart">
+                        <button type="submit" class="btn btn-outline-primary align-middle" id="restart" :class="{disabled: isDisable}">
                         <h4>
-                            Обновить страницу
+                            Выход из турнира
                         </h4>
                     </button>
                 </a>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -59,9 +59,22 @@ export default{
             let arr2 = arr.filter(item => item == true)
             if (arr.length === arr2.length){
                 this.getTourneyWinner
+                // this.endTourney()
             }
         }
+    },
+    methods:{
+        // endTourney(){
+        //     this.playersForTourney.forEach(function(item){
+        //         item.isOverTourney = true;
+        //     })
+        // }
     }
 }
 </script>
+<style>
+    #restart{
+        width: 100%;
+    }
+</style>
 

@@ -4,7 +4,7 @@
             <div class="">
                 <PlayersInput/>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 player-list">
                         <PlayersList 
                             :players="players"
                         />

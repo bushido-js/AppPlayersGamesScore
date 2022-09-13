@@ -23,7 +23,7 @@
                             /
                             <span class="badge bg-danger rounded-pill">{{ player.lossRound }}</span>
                             |
-                            <span class="badge bg-warning rounded-pill">{{ player.winGame }}</span>
+                            <span class="badge bg-warning rounded-pill">{{ player.winGameTourney }}</span>
                         </li>
                     </ul>
                 </div>

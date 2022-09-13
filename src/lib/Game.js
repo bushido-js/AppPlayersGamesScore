@@ -10,12 +10,14 @@ export default class Game {
     #secondUserObj = null;
     rounds = [0];
     isOverGame = false;
-    
-    constructor(firstPlayer, secondPlayer){
+    #tourneyFlag = null;
+
+    constructor(firstPlayer, secondPlayer, flag, ){
         this.#id = Game.indexGame;
         Game.indexGame++
         this.#firstUserObj = firstPlayer;
-        this.#secondUserObj = secondPlayer;     
+        this.#secondUserObj = secondPlayer;
+        this.#tourneyFlag = flag;    
     }
 
     get firstUserObj(){
@@ -36,10 +38,12 @@ export default class Game {
 
     firstUserWon() {
         this.#userWon(this.#firstUserObj.id);
+        console.log('see flag', this.#tourneyFlag);
     }
 
     secondUserWon() {
         this.#userWon(this.#secondUserObj.id);
+        console.log('see flag', this.#tourneyFlag);
     }
 
     #userWon(userId) {
@@ -66,11 +70,11 @@ export default class Game {
         rounds.push(0);
         Vue.set(rounds, 0, userId);
     }
-        
+    console.log('rounds', rounds);
     }
     #sendScore(){
-        this.#firstUserObj.addPoints(this.#calculateScoreWin(this.#firstUserObj.id), this.#calculateScoreLoss(this.#firstUserObj.id))
-        this.#secondUserObj.addPoints(this.#calculateScoreWin(this.#secondUserObj.id), this.#calculateScoreLoss(this.#secondUserObj.id))
+        this.#firstUserObj.addPoints(this.#calculateScoreWin(this.#firstUserObj.id), this.#calculateScoreLoss(this.#firstUserObj.id), this.#tourneyFlag)
+        this.#secondUserObj.addPoints(this.#calculateScoreWin(this.#secondUserObj.id), this.#calculateScoreLoss(this.#secondUserObj.id), this.#tourneyFlag)
         this.#endGame()
     }
     #calculateScoreWin(userId) {
